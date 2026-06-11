@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>PANDAS 景观设计 - 江山如画</title>
 
     <!-- Tailwind CSS -->
@@ -85,8 +86,6 @@
 <body class="font-sans selection:bg-gray-200">
     <div id="root"></div>
     <script type="text/babel">
-
-
 
 
         const { useState, useEffect, useRef } = React;
@@ -324,8 +323,8 @@
       "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2000&auto=format&fit=crop"
     ],
     "videoSlides": [
-      "https://video.zcool.cn/alivod/fef9161964ce4fa39c99ecb271b737c1.mp4?k=8fbad1ec29c17c2d6e3ac2f1da7f5513&t=6a2aedb1",
-      "https://video.zcool.cn/alivod/6a28383c604c0q6iyfrz4c839_H264_1_3539188da1b9b4.mp4?k=384400df204d6cdf7128222a1359af85&t=6a2aedc5"
+      "https://us-xpc5.xpccdn.com/1b9b285d-fda2-4cdb-abc1-fe006e4ebaa4/44fcfd5d-9c5a-4244-8300-2ae4c3bb2716.mp4?j=%7B%22userId%22%3A13173732%2C%22deviceId%22%3A%22b38e9175-0543-4b5f-808a-1efd7f5a421f%22%2C%22ip%22%3A%22110.184.58.125%2C61.157.38.73%22%7D",
+      "https://us-xpc5-l2.xpccdn.com/8f958025-e1de-441a-8a02-c0a4a64e799a/a8824753-ace4-4e66-8f92-6b6a63a66af9.mp4?j=%7B%22userId%22%3A13173732%2C%22deviceId%22%3A%22b38e9175-0543-4b5f-808a-1efd7f5a421f%22%2C%22ip%22%3A%22110.184.58.125%2C61.157.38.53%22%7D"
     ],
     "videoPlayMode": "random",
     "objectFit": "cover"
@@ -442,23 +441,11 @@
   "gallery": [],
   "videos": [
     {
-      "title": "招商·贵阳",
-      "category": "景观/现代景观示范区",
-      "img": "",
-      "desc": "理性于自然中野蛮生长，自然中心所有物质都是发出来的光，山陵、溪流、空气，以至于我们自己，都是发出的光。这块皱成一团叫物质的东西投射出影子，而影子属于光。",
-      "vid": "https://video.zcool.cn/alivod/fef9161964ce4fa39c99ecb271b737c1.mp4?k=8fbad1ec29c17c2d6e3ac2f1da7f5513&t=6a2aedb1",
-      "media": [],
-      "id": "vi1781196540203",
-      "descEn": "Reason grows wildly in nature, and all substances in the center of nature are emitted light. Mountains, streams, air, and even ourselves are all emitted light. This crumpled lump of matter called matter casts a shadow, and shadow belongs to light.",
-      "categoryEn": "Landscape/Modern Landscape Demonstration Area",
-      "titleEn": "Investment·Guiyang"
-    },
-    {
       "title": "湖与白",
       "category": "景观/日式庭院设计",
       "img": "",
       "desc": "以枯山水为骨架，以植被为血肉，利用巧妙的框景与动线引导，将庭院打造为一个能够让心灵沉淀、与自然共生的静谧栖息地。",
-      "vid": "https://video.zcool.cn/alivod/6a28383c604c0q6iyfrz4c839_H264_1_3539188da1b9b4.mp4?k=384400df204d6cdf7128222a1359af85&t=6a2aedc5",
+      "vid": "https://us-xpc5.xpccdn.com/1b9b285d-fda2-4cdb-abc1-fe006e4ebaa4/44fcfd5d-9c5a-4244-8300-2ae4c3bb2716.mp4?j=%7B%22userId%22%3A13173732%2C%22deviceId%22%3A%22b38e9175-0543-4b5f-808a-1efd7f5a421f%22%2C%22ip%22%3A%22110.184.58.125%2C61.157.38.73%22%7D",
       "media": [],
       "id": "vi1781196497584",
       "categoryEn": "Landscape/Japanese Garden Design",
@@ -1043,6 +1030,36 @@
             }
         };
 
+        // --- 智能解析视频链接 (支持 B站、YouTube 及通用 iframe 代码) ---
+        const parseVideoUrl = (url) => {
+            if (!url) return { isIframe: false, url: '' };
+            let parsedUrl = String(url).trim();
+
+            const iframeMatch = parsedUrl.match(/<iframe.*?src=["'](.*?)["']/i);
+            if (iframeMatch) {
+                parsedUrl = iframeMatch[1];
+            }
+
+            // 智能识别 B站 BV 号 (支持直接填BV号、短链接 b23.tv 或 完整链接)
+            const bvMatch = parsedUrl.match(/(BV[1-9A-HJ-NP-Za-km-z]{10})/i);
+            if (bvMatch) {
+                // 统一转换为 B 站官方 iframe 播放器地址
+                parsedUrl = `https://player.bilibili.com/player.html?bvid=${bvMatch[1]}&page=1&high_quality=1&as_wide=1&allowfullscreen=true&autoplay=0`;
+            }
+
+            if (parsedUrl.includes('player.bilibili.com') || 
+                parsedUrl.includes('youtube.com/embed') || 
+                parsedUrl.includes('v.qq.com/txp/iframe')) {
+                
+                if (parsedUrl.startsWith('//')) {
+                    parsedUrl = 'https:' + parsedUrl;
+                }
+                return { isIframe: true, url: parsedUrl };
+            }
+
+            return { isIframe: false, url: parsedUrl };
+        };
+
         const ParticlesBackground = ({ color }) => {
           const canvasRef = useRef(null);
           useEffect(() => {
@@ -1132,13 +1149,14 @@
 
         // --- 主页内嵌视频控制器组件 ---
         const HeroVideoPlayer = ({ src, objectFit, loop, onEnded }) => {
+            const parsed = parseVideoUrl(src);
             const videoRef = useRef(null);
             const [isPlaying, setIsPlaying] = useState(true);
             const [progress, setProgress] = useState(0);
             const [isMuted, setIsMuted] = useState(false); // 默认尝试带声音播放
 
             useEffect(() => {
-                if (videoRef.current) {
+                if (videoRef.current && !parsed.isIframe) {
                     if (src) {
                         videoRef.current.muted = isMuted;
                         const playPromise = videoRef.current.play();
@@ -1157,7 +1175,7 @@
                         setIsPlaying(false);
                     }
                 }
-            }, [src]);
+            }, [src, parsed.isIframe]);
 
             const handleTimeUpdate = () => {
                 if (videoRef.current) {
@@ -1218,6 +1236,26 @@
                     videoRef.current.muted = nextMuted;
                 }
             };
+
+            if (parsed.isIframe) {
+                let iframeSrc = parsed.url;
+                if (iframeSrc.includes('bilibili')) {
+                    // 开启自动播放，关闭弹幕，去除所有强制静音参数以允许声音输出
+                    if (iframeSrc.includes('autoplay=')) iframeSrc = iframeSrc.replace(/autoplay=\d+/, 'autoplay=1');
+                    else iframeSrc += (iframeSrc.includes('?') ? '&' : '?') + 'autoplay=1';
+                    if (!iframeSrc.includes('danmaku=')) iframeSrc += '&danmaku=0';
+                }
+                return (
+                    <div className="relative w-full h-full group bg-black flex items-center justify-center">
+                        {/* 完全移除透明遮罩和尺寸超放，恢复 B 站原生控制条的可点击性 */}
+                        <iframe 
+                            src={iframeSrc} 
+                            className="w-full h-full border-0" 
+                            allow="autoplay; fullscreen; encrypted-media"
+                        ></iframe>
+                    </div>
+                );
+            }
 
             return (
                 <div className="relative w-full h-full group bg-black">
@@ -2031,6 +2069,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <title>PANDAS 景观设计 - 江山如画</title>
 
     <!-- Tailwind CSS -->
@@ -2219,7 +2258,7 @@
                               {data.hero?.type === 'video' && (
                                   <div className="space-y-2 mt-2 bg-gray-50 p-2 rounded border border-gray-200">
                                       <div className="flex justify-between items-center">
-                                          <label className="text-[10px] text-gray-500 font-bold">视频播放列表 (MP4)</label>
+                                          <label className="text-[10px] text-gray-500 font-bold">视频播放列表 (支持B站/MP4)</label>
                                           {videoSlides.length > 1 && (
                                               <select className="p-1 border rounded text-[10px] outline-none" value={videoPlayMode} onChange={e=>setData(p=>({...p, hero:{...p.hero, videoPlayMode: e.target.value}}))}>
                                                   <option value="sequence">逐一播放</option>
@@ -2230,7 +2269,7 @@
                                       <div className="max-h-32 overflow-y-auto space-y-1">
                                           {videoSlides.map((v, idx) => (
                                               <div key={idx} className="flex gap-1">
-                                                  <input className="flex-1 p-1 text-xs border rounded" value={v} onChange={e=>{
+                                                  <input className="flex-1 p-1 text-[10px] border rounded" placeholder="输入 MP4 或 B站链接/BV号" value={v} onChange={e=>{
                                                       let arr = [...videoSlides]; arr[idx]=e.target.value; setData(p=>({...p, hero:{...p.hero, videoSlides:arr}}));
                                                   }}/>
                                                   <button onClick={()=>{let arr=[...videoSlides];arr.splice(idx,1);setData(p=>({...p,hero:{...p.hero,videoSlides:arr}}))}} className="bg-red-100 text-red-500 px-1.5 rounded"><i className="ri-close-line"></i></button>
@@ -2349,7 +2388,9 @@
                               </div>
                               <div className="flex overflow-x-auto hide-scrollbar space-x-6 md:space-x-8 px-4 md:px-12 lg:px-24 pb-8 snap-scroller">
                                   {sec.id === 'videos' ? (
-                                      filteredList.slice(0, 8).map(item => (
+                                      filteredList.slice(0, 8).map(item => {
+                                          const parsedVid = parseVideoUrl(item.vid);
+                                          return (
                                           <div key={item.id} 
                                                draggable={isEditing && !item.isAggregated}
                                                onDragStart={(e) => !item.isAggregated && handleDragStart(e, item.id, 'videos')}
@@ -2374,16 +2415,31 @@
 
                                               <div className="w-full aspect-video rounded-sm overflow-hidden relative mb-4 bg-gray-900 img-hover-zoom">
                                                   {isEditing && !item.isAggregated && <button onClick={(e)=>{e.stopPropagation();handleRemoveArrayItem('videos', item.id)}} className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded z-30"><i className="ri-delete-bin-line text-xs"></i></button>}
-                                                  {isEditing && !item.isAggregated && <input className="absolute inset-x-0 bottom-0 text-[10px] p-1 bg-white/90 z-20 w-full" placeholder="视频封面或URL" value={item.vid} onChange={e=>handleArrayEdit('videos',item.id,'vid',e.target.value)} onClick={e=>e.stopPropagation()}/>}
+                                                  {isEditing && !item.isAggregated && <input className="absolute inset-x-0 bottom-0 text-[10px] p-1 bg-white/90 z-20 w-full" placeholder="输入 MP4 或 B站链接/BV号" value={item.vid} onChange={e=>handleArrayEdit('videos',item.id,'vid',e.target.value)} onClick={e=>e.stopPropagation()}/>}
                                                   {isEditing && !item.isAggregated && <input className="absolute inset-x-0 top-0 text-[10px] p-1 bg-white/90 z-20 w-full" placeholder="封面图片URL" value={item.img} onChange={e=>handleArrayEdit('videos',item.id,'img',e.target.value)} onClick={e=>e.stopPropagation()}/>}
-                                                  <video src={item.vid} poster={item.img} className="w-full h-full object-cover" muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
-                                                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors flex items-center justify-center pointer-events-none">
-                                                      <div className="w-12 h-12 rounded-full bg-white/50 group-hover:bg-white/90 flex items-center justify-center backdrop-blur-sm transition-all"><i className="ri-play-fill text-black text-xl ml-1"></i></div>
-                                                  </div>
+                                                  
+                                                  {parsedVid.isIframe ? (
+                                                      <div className="w-full h-full relative group-hover:scale-105 transition-transform duration-700">
+                                                          {item.img ? (
+                                                              <img src={item.img} className="w-full h-full object-cover opacity-80" />
+                                                          ) : (
+                                                              <iframe src={parsedVid.url} className="w-full h-full border-0 pointer-events-none" allowFullScreen></iframe>
+                                                          )}
+                                                      </div>
+                                                  ) : (
+                                                      <video src={parsedVid.url} poster={item.img} className="w-full h-full object-cover" muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                                  )}
+                                                  
+                                                  {(!parsedVid.isIframe || item.img) && (
+                                                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors flex items-center justify-center pointer-events-none">
+                                                          <div className="w-12 h-12 rounded-full bg-white/50 group-hover:bg-white/90 flex items-center justify-center backdrop-blur-sm transition-all"><i className="ri-play-fill text-black text-xl ml-1"></i></div>
+                                                      </div>
+                                                  )}
                                               </div>
                                               <EditableArrayText item={item} data={data} lang={currentLang} isEditing={isEditing && !item.isAggregated} onEdit={handleArrayEdit} onFocus={setFocusedField} arrayName="videos" field="title" tag="h3" className="font-serif text-sm text-[#313131]" />
                                           </div>
-                                      ))
+                                          );
+                                      })
                                   ) : sec.id === 'gallery' ? (
                                       filteredList.slice(0, 8).map((item, idx) => {
                                           const widths = ['w-[60vw] md:w-[30vw]', 'w-[40vw] md:w-[20vw]', 'w-[50vw] md:w-[25vw]'];
@@ -2490,7 +2546,9 @@
                       )}
                       
                       <div className={isMasonry ? "masonry-grid" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"}>
-                          {filteredList.map(item => (
+                          {filteredList.map(item => {
+                              const parsedVid = parseVideoUrl(item.vid);
+                              return (
                               <div key={item.id} 
                                    draggable={isEditing && !item.isAggregated}
                                    onDragStart={(e) => !item.isAggregated && handleDragStart(e, item.id, arrayName)}
@@ -2521,17 +2579,27 @@
                                       {isEditing && !item.isAggregated && (<input className="absolute inset-x-0 bottom-0 text-[10px] p-1 bg-white/90 z-10 w-full" placeholder="封面图片URL" value={item.img} onChange={e=>handleArrayEdit(arrayName,item.id,'img',e.target.value)} onClick={e=>e.stopPropagation()}/>)}
                                       
                                       {isVideoMode && item.vid ? (
-                                          <video src={item.vid} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                          parsedVid.isIframe ? (
+                                              <div className={`w-full h-full relative opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''} group-hover:scale-105 duration-700`}>
+                                                  {item.img ? (
+                                                      <img src={item.img} className="w-full h-full object-cover" />
+                                                  ) : (
+                                                      <iframe src={parsedVid.url} className="w-full h-full border-0 pointer-events-none" allowFullScreen></iframe>
+                                                  )}
+                                              </div>
+                                          ) : (
+                                              <video src={parsedVid.url} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                          )
                                       ) : (
                                           <img src={item.img} className="w-full h-full object-cover" />
                                       )}
 
-                                      {isVideoMode && (
+                                      {isVideoMode && (!parsedVid.isIframe || item.img) && (
                                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                                               <div className="w-12 h-12 rounded-full border border-white/50 group-hover:bg-white group-hover:border-white flex items-center justify-center backdrop-blur-sm transition-all"><i className="ri-play-fill text-white group-hover:text-black ml-1 text-xl transition-colors"></i></div>
                                           </div>
                                       )}
-                                      {isEditing && !item.isAggregated && isVideoMode && <input className="absolute inset-x-0 top-0 text-[10px] p-1 bg-white/90 z-10 w-full" placeholder="视频MP4 URL" value={item.vid} onChange={e=>handleArrayEdit(arrayName,item.id,'vid',e.target.value)} onClick={e=>e.stopPropagation()}/>}
+                                      {isEditing && !item.isAggregated && isVideoMode && <input className="absolute inset-x-0 top-0 text-[10px] p-1 bg-white/90 z-10 w-full" placeholder="输入 MP4 或 B站链接/BV号" value={item.vid} onChange={e=>handleArrayEdit(arrayName,item.id,'vid',e.target.value)} onClick={e=>e.stopPropagation()}/>}
                                   </div>
 
                                   <div className={`${isMasonry ? 'p-5' : ''} flex-1 flex flex-col items-start w-full`}>
@@ -2543,7 +2611,8 @@
                                       {isEditing && !isVideoMode && !isMasonry && item.isAggregated && <button onClick={(e)=>{e.stopPropagation(); openDetail(item.sourceType, item.sourceId);}} className="mt-4 text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded w-full"><i className="ri-share-forward-line"></i> 前往原模块编辑</button>}
                                   </div>
                               </div>
-                          ))}
+                              );
+                          })}
                       </div>
                   </div>
               );
@@ -2731,14 +2800,23 @@
                                       </div>
                                   )}
 
-                                  {m.type === 'video' && (
+                                  {m.type === 'video' && (() => {
+                                      const parsedVid = parseVideoUrl(m.url);
+                                      return (
                                       <div className={`relative aspect-video bg-black rounded overflow-hidden shadow-inner border border-gray-200 w-full h-full !mt-0 !mb-0`}>
-                                          {isEditing && <input className="absolute top-2 left-2 z-10 w-3/4 p-2 text-xs rounded shadow border" placeholder="MP4 视频 URL" value={m.url} onChange={e=>handleUpdateMedia(type, item.id, m.id, 'url', e.target.value)} onClick={e=>e.stopPropagation()} />}
-                                          {m.url ? <video src={m.url} controls playsInline className="w-full h-full object-cover"></video> : <div className="w-full h-full flex items-center justify-center text-gray-400">填入视频地址以展示</div>}
+                                          {isEditing && <input className="absolute top-2 left-2 z-10 w-3/4 p-2 text-xs rounded shadow border" placeholder="MP4 URL 或 B站链接/BV号" value={m.url} onChange={e=>handleUpdateMedia(type, item.id, m.id, 'url', e.target.value)} onClick={e=>e.stopPropagation()} />}
+                                          {parsedVid.isIframe ? (
+                                              <iframe src={parsedVid.url} className="w-full h-full border-0 absolute inset-0 z-0" allow="autoplay; fullscreen" allowFullScreen></iframe>
+                                          ) : m.url ? (
+                                              <video src={parsedVid.url} controls playsInline className="w-full h-full object-cover relative z-0"></video>
+                                          ) : (
+                                              <div className="w-full h-full flex items-center justify-center text-gray-400 relative z-0">填入视频地址以展示</div>
+                                          )}
                                           {isEditing ? <input className="w-full p-1 text-xs text-center border-b outline-none text-gray-500 bg-white/80 backdrop-blur absolute bottom-2 z-10" placeholder="视频说明 (Caption)" value={m.caption} onChange={e=>handleUpdateMedia(type,item.id,m.id,'caption',e.target.value)} onClick={e=>e.stopPropagation()} />
                                           : (m.caption && <p className="img-caption !mb-2 !mt-0 absolute bottom-0 inset-x-0 z-10 bg-gradient-to-t from-black/60 pt-4 pb-2 text-white">{m.caption}</p>)}
                                       </div>
-                                  )}
+                                      );
+                                  })()}
 
                                   {/* 全新重构的多模式全景模块 (原生图片360 / 外链 iframe / 跳转防屏蔽) */}
                                   {m.type === 'panorama' && (
@@ -2883,7 +2961,7 @@
                       if (isMain) {
                           if (arrName === 'videos') {
                               typeLabel = "视频";
-                              examplePlaceholder = "https://example.com/vid1.mp4 | 项目宣传片 | 现代 | 备注说明\nhttps://example.com/vid2.mp4";
+                              examplePlaceholder = "https://www.bilibili.com/video/BV1xx411c7mD | B站项目宣传片 | 现代 | 支持智能解析\nhttps://example.com/vid2.mp4";
                           } else if (arrName === 'projects' || arrName === 'built' || arrName === 'cloudtext') {
                               typeLabel = "项目";
                           }
@@ -3522,14 +3600,32 @@
                   </footer>
 
                   {/* 全局悬浮组件 (播放器/大图) */}
-                  {playingVideo && (
+                  {playingVideo && (() => {
+                      const parsed = parseVideoUrl(playingVideo);
+                      let iframeSrc = parsed.url;
+                      if (parsed.isIframe && iframeSrc.includes('bilibili')) {
+                          // 核心修复：取消全局弹窗的强制自动播放，改为用户手动点击。
+                          // 这是让 B站 iframe 允许放出声音的唯一可靠方式。
+                          if (iframeSrc.includes('autoplay=')) {
+                              iframeSrc = iframeSrc.replace(/autoplay=\d+/, 'autoplay=0');
+                          } else {
+                              iframeSrc += (iframeSrc.includes('?') ? '&' : '?') + 'autoplay=0';
+                          }
+                          if (!iframeSrc.includes('danmaku=')) iframeSrc += '&danmaku=0';
+                      }
+                      return (
                       <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-sm animate-fade-in" onClick={() => setPlayingVideo(null)}>
                           <button onClick={(e)=>{e.stopPropagation(); setPlayingVideo(null);}} className="absolute top-6 right-6 md:top-8 md:right-8 text-white/50 hover:text-white z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-md transition-all"><i className="ri-close-line text-2xl"></i></button>
                           <div className="w-full max-w-6xl aspect-video px-4 md:px-12 relative flex justify-center items-center">
-                              <video src={playingVideo} controls autoPlay className="w-full h-full max-h-[80vh] shadow-2xl rounded" onClick={e=>e.stopPropagation()}></video>
+                              {parsed.isIframe ? (
+                                  <iframe src={iframeSrc} className="w-full h-full max-h-[80vh] shadow-2xl rounded border-0 bg-black" allowFullScreen allow="autoplay; fullscreen"></iframe>
+                              ) : (
+                                  <video src={parsed.url} controls autoPlay className="w-full h-full max-h-[80vh] shadow-2xl rounded bg-black" onClick={e=>e.stopPropagation()}></video>
+                              )}
                           </div>
                       </div>
-                  )}
+                      );
+                  })()}
 
                   {lightboxImg && (() => {
                       const bg = data.backgrounds['detail'] || { type: 'color', color: '#ffffff' };
@@ -3562,6 +3658,7 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
     
     
     </script>

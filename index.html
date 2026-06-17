@@ -45,6 +45,11 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+        Babel.registerPreset('react-classic', {
+            presets: [[Babel.availablePresets.react, { runtime: 'classic' }]]
+        });
+    </script>
 
     <style>
         body { background-color: transparent; color: #313131; -webkit-font-smoothing: antialiased; }
@@ -1595,7 +1600,11 @@
                   arr.forEach(item => {
                       if (item.img && !seenUrls.has(item.img)) {
                           aggregated.push({
-                              id: item.id + '_cover', title: item.title, category: item.category || (data.menus?.find(m=>m.id===src)?.label || src),
+                              id: item.id + '_cover', 
+                              title: item.title, titleEn: item.titleEn || item.title,
+                              category: item.category || (data.menus?.find(m=>m.id===src)?.label || src),
+                              categoryEn: item.categoryEn || item.category || (data.menus?.find(m=>m.id===src)?.labelEn || data.menus?.find(m=>m.id===src)?.label || src),
+                              desc: item.desc, descEn: item.descEn || item.desc,
                               img: item.img, cardSize: item.cardSize, isAggregated: true, sourceType: src, sourceId: item.id, date: item.date
                           });
                           seenUrls.add(item.img);
@@ -1603,7 +1612,11 @@
                       (item.media || []).forEach(m => {
                           if (m.type === 'image' && m.url && !seenUrls.has(m.url)) {
                               aggregated.push({
-                                  id: m.id, title: m.caption || item.title || '图集图片', category: item.category || (data.menus?.find(m=>m.id===src)?.label || src),
+                                  id: m.id, 
+                                  title: m.caption || item.title || '图集图片', 
+                                  titleEn: m.caption || item.titleEn || item.title || 'Gallery Image',
+                                  category: item.category || (data.menus?.find(m=>m.id===src)?.label || src),
+                                  categoryEn: item.categoryEn || item.category || (data.menus?.find(m=>m.id===src)?.labelEn || data.menus?.find(m=>m.id===src)?.label || src),
                                   img: m.url, cardSize: m.cardSize, isAggregated: true, sourceType: src, sourceId: item.id
                               });
                               seenUrls.add(m.url);
@@ -2250,6 +2263,11 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"><` + `/script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><` + `/script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"><` + `/script>
+    <script>
+        Babel.registerPreset('react-classic', {
+            presets: [[Babel.availablePresets.react, { runtime: 'classic' }]]
+        });
+    <` + `/script>
 
     <style>
         body { background-color: transparent; color: #313131; -webkit-font-smoothing: antialiased; }

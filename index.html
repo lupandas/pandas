@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>PANDAS</title>
+    <title>PANDAS 景观设计 - 江山如画</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -61,10 +61,12 @@
         .img-hover-zoom img, .img-hover-zoom video { transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .group:hover .img-hover-zoom img, .img-hover-zoom:hover img,
         .group:hover .img-hover-zoom video, .img-hover-zoom:hover video { transform: scale(1.05); }
-        .masonry-grid { column-count: 1; column-gap: 1.5rem; }
-        @media (min-width: 640px) { .masonry-grid { column-count: 2; } }
-        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
-        @media (min-width: 1280px) { .masonry-grid { column-count: 4; } }
+        .masonry-grid { column-count: 1; column-gap: 1rem; }
+        @media (min-width: 640px) { .masonry-grid { column-count: 2; column-gap: 1rem; } }
+        @media (min-width: 768px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 4; } }
+        @media (min-width: 1280px) { .masonry-grid { column-count: 5; } }
+        @media (min-width: 1536px) { .masonry-grid { column-count: 6; } }
         .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; display: block; }
         .snap-scroller { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
         .snap-item { scroll-snap-align: center; }
@@ -86,11 +88,67 @@
         }
 
         .pnlm-about-msg { display: none !important; }
+
+        /* === AI 提示 & AI生图 暗色科技风格样式 === */
+        .ai-section { color: #e2e8f0; min-height: 100vh; padding: 2rem 1rem; max-width: 1400px; margin: 0 auto; }
+        .ai-section h2 { font-size: 1.8rem; font-weight: 600; color: #a78bfa; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+        .ai-section h3 { font-size: 1.1rem; color: #c4b5fd; margin-bottom: 0.75rem; }
+        .ai-card { background: rgba(30, 30, 50, 0.7); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px); }
+        .ai-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(167, 139, 250, 0.15); }
+        .ai-card-header i { color: #a78bfa; font-size: 1.2rem; }
+        .ai-input { width: 100%; padding: 0.75rem 1rem; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; color: #333; font-size: 0.9rem; outline: none; transition: border-color 0.3s; resize: vertical; }
+        .ai-input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1); }
+        .ai-input::placeholder { color: rgba(226, 232, 240, 0.35); }
+        .ai-textarea { min-height: 120px; }
+        .ai-btn { padding: 0.6rem 1.5rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .ai-btn-primary { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: #fff; }
+        .ai-btn-primary:hover { background: linear-gradient(135deg, #c4b5fd, #8b5cf6); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); }
+        .ai-btn-secondary { background: rgba(167, 139, 250, 0.1); color: #c4b5fd; border: 1px solid rgba(167, 139, 250, 0.25); }
+        .ai-btn-secondary:hover { background: rgba(167, 139, 250, 0.2); }
+        .ai-btn-sm { padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: 6px; }
+        .ai-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .ai-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .ai-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        @media (max-width: 768px) {
+            .ai-grid-2, .ai-grid-3, .ai-grid-4 { grid-template-columns: 1fr; }
+        }
+        .ai-label { display: block; font-size: 0.8rem; color: #555; margin-bottom: 0.35rem; }
+        .ai-select { width: 100%; padding: 0.65rem 0.85rem; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; color: #333; font-size: 0.85rem; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236c5ce7' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+        .ai-select:focus { border-color: #6c5ce7; }
+        .ai-upload-zone { border: 2px dashed rgba(167, 139, 250, 0.3); border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .ai-upload-zone:hover { border-color: #a78bfa; background: rgba(167, 139, 250, 0.05); }
+        .ai-upload-zone i { font-size: 2rem; color: #a78bfa; margin-bottom: 0.5rem; }
+        .ai-upload-zone p { color: #94a3b8; font-size: 0.85rem; }
+        .ai-result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .ai-result-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #e8e8e8; background: #fafafa; }
+        .ai-result-item img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.5s; }
+        .ai-result-item:hover img { transform: scale(1.03); }
+        .ai-result-actions { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.5rem; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; gap: 0.5rem; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .ai-result-item:hover .ai-result-actions { opacity: 1; }
+        .ai-result-actions button { padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; border: none; cursor: pointer; color: #fff; background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+        .ai-result-actions button:hover { background: rgba(255,255,255,0.3); }
+        .ai-toggle-panel { cursor: pointer; user-select: none; }
+        .ai-toggle-panel .toggle-icon { transition: transform 0.3s; display: inline-block; }
+        .ai-toggle-panel.open .toggle-icon { transform: rotate(90deg); }
+        .ai-config-panel { overflow: hidden; transition: max-height 0.4s ease; }
+        .ai-config-panel.collapsed { max-height: 0; }
+        .ai-config-panel.expanded { max-height: 600px; }
+        .ai-size-btn { padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; border: 1px solid rgba(167, 139, 250, 0.25); background: rgba(15, 15, 30, 0.6); color: #94a3b8; transition: all 0.2s; text-align: center; }
+        .ai-size-btn:hover { border-color: #a78bfa; color: #c4b5fd; }
+        .ai-size-btn.active { background: rgba(167, 139, 250, 0.2); border-color: #a78bfa; color: #a78bfa; font-weight: 600; }
+        .ai-generating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 2rem; color: #a78bfa; }
+        .ai-spinner { width: 24px; height: 24px; border: 3px solid rgba(167, 139, 250, 0.2); border-top-color: #a78bfa; border-radius: 50%; animation: ai-spin 0.8s linear infinite; }
+        @keyframes ai-spin { to { transform: rotate(360deg); } }
+        .ai-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 1rem; color: #fca5a5; font-size: 0.85rem; margin-top: 1rem; }
+        .ai-success { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; padding: 1rem; color: #86efac; font-size: 0.85rem; margin-top: 0.5rem; }
+
     </style>
 </head>
 <body class="font-sans selection:bg-gray-200">
     <div id="root"></div>
     <script type="text/babel" data-presets="react-classic">
+
+
 
 
 
@@ -180,6 +238,20 @@
       "id": "contact",
       "label": "联系我",
       "labelEn": "Contact",
+      "type": "system",
+      "template": ""
+    },
+    {
+      "id": "ai_prompt",
+      "label": "AI提示",
+      "labelEn": "AI Prompt",
+      "type": "system",
+      "template": ""
+    },
+    {
+      "id": "ai_image",
+      "label": "AI生图",
+      "labelEn": "AI Image",
       "type": "system",
       "template": ""
     }
@@ -285,6 +357,14 @@
     "search": {
       "type": "color",
       "color": "#f3eee7"
+    },
+    "ai_prompt": {
+      "type": "color",
+      "color": "#ffffff"
+    },
+    "ai_image": {
+      "type": "color",
+      "color": "#ffffff"
     }
   },
   "hero": {
@@ -1806,6 +1886,7 @@
           return {
             fontSize: cStyle.fontSize || undefined,
             fontFamily: cStyle.fontFamily || undefined,
+            fontWeight: cStyle.fontWeight || undefined,
             ...(isGrad
               ? { backgroundImage: cStyle.color || 'linear-gradient(to right, #bf953f, #fcf6ba)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', color: 'transparent' }
               : { color: cStyle.color || undefined, WebkitTextFillColor: 'initial', backgroundImage: 'none' })
@@ -2096,6 +2177,50 @@
           const [batchImportTarget, setBatchImportTarget] = useState(null); // { type: 'main', arrayName: 'gallery' } or { type: 'media', arrayName: 'projects', parentId: '123' }
           const [batchImportText, setBatchImportText] = useState('');
           const [batchGlobalSettings, setBatchGlobalSettings] = useState({ category: '', titlePrefix: '', desc: '' });
+
+          // --- AI 图片生成 状态 ---
+          const [aiImagePrompt, setAiImagePrompt] = useState('');
+          const [aiImageNegative, setAiImageNegative] = useState('');
+          const [aiImageSize, setAiImageSize] = useState('1024x1024');
+          const [aiImageCount, setAiImageCount] = useState(1);
+          const [aiImageResults, setAiImageResults] = useState([]);
+          const [aiImageLoading, setAiImageLoading] = useState(false);
+          const [aiImageError, setAiImageError] = useState('');
+          
+          // API 配置 (localStorage 持久化)
+          const loadApiConfig = () => {
+            try {
+              const saved = localStorage.getItem('ai_image_api_config');
+              if (saved) return JSON.parse(saved);
+            } catch(e) {}
+            return { baseUrl: 'https://api.openai.com', apiKey: '', model: 'dall-e-3', apiFormat: 'openai' };
+          };
+          const [apiConfig, setApiConfig] = useState(loadApiConfig);
+          const [showApiConfigPanel, setShowApiConfigPanel] = useState(false);
+          
+          const saveApiConfig = (cfg) => {
+            setApiConfig(cfg);
+            localStorage.setItem('ai_image_api_config', JSON.stringify(cfg));
+          };
+          
+          // 从 AI提示 跳转到 AI生图 并预填提示词
+          const jumpToAiImage = (promptText) => {
+            setAiImagePrompt(promptText);
+            navigateTo('ai_image');
+            setTimeout(() => {
+              const el = document.getElementById('ai-image-prompt-input');
+              if (el) { el.focus(); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+            }, 200);
+          };
+          
+          // --- AI 项目状态 ---
+          const [aiProjects, setAiProjects] = useState(() => {
+            try { const saved = localStorage.getItem('ai_projects'); return saved ? JSON.parse(saved) : []; } catch(e) { return []; }
+          });
+          const [aiShowNewProject, setAiShowNewProject] = useState(false);
+          const [aiNewProjectName, setAiNewProjectName] = useState('');
+          const [aiActiveProjectId, setAiActiveProjectId] = useState(null);
+          const [aiTemplate, setAiTemplate] = useState('realistic');
 
           const [showAuthModal, setShowAuthModal] = useState(false);
           const [authPwd, setAuthPwd] = useState('');
@@ -2800,10 +2925,12 @@
         .img-hover-zoom img, .img-hover-zoom video { transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .group:hover .img-hover-zoom img, .img-hover-zoom:hover img,
         .group:hover .img-hover-zoom video, .img-hover-zoom:hover video { transform: scale(1.05); }
-        .masonry-grid { column-count: 1; column-gap: 1.5rem; }
-        @media (min-width: 640px) { .masonry-grid { column-count: 2; } }
-        @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
-        @media (min-width: 1280px) { .masonry-grid { column-count: 4; } }
+        .masonry-grid { column-count: 1; column-gap: 1rem; }
+        @media (min-width: 640px) { .masonry-grid { column-count: 2; column-gap: 1rem; } }
+        @media (min-width: 768px) { .masonry-grid { column-count: 3; } }
+        @media (min-width: 1024px) { .masonry-grid { column-count: 4; } }
+        @media (min-width: 1280px) { .masonry-grid { column-count: 5; } }
+        @media (min-width: 1536px) { .masonry-grid { column-count: 6; } }
         .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; display: block; }
         .snap-scroller { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
         .snap-item { scroll-snap-align: center; }
@@ -2825,6 +2952,60 @@
         }
 
         .pnlm-about-msg { display: none !important; }
+
+        /* === AI 提示 & AI生图 暗色科技风格样式 === */
+        .ai-section { color: #e2e8f0; min-height: 100vh; padding: 2rem 1rem; max-width: 1400px; margin: 0 auto; }
+        .ai-section h2 { font-size: 1.8rem; font-weight: 600; color: #a78bfa; margin-bottom: 1.5rem; letter-spacing: 0.05em; }
+        .ai-section h3 { font-size: 1.1rem; color: #c4b5fd; margin-bottom: 0.75rem; }
+        .ai-card { background: rgba(30, 30, 50, 0.7); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px); }
+        .ai-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(167, 139, 250, 0.15); }
+        .ai-card-header i { color: #a78bfa; font-size: 1.2rem; }
+        .ai-input { width: 100%; padding: 0.75rem 1rem; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; color: #333; font-size: 0.9rem; outline: none; transition: border-color 0.3s; resize: vertical; }
+        .ai-input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1); }
+        .ai-input::placeholder { color: rgba(226, 232, 240, 0.35); }
+        .ai-textarea { min-height: 120px; }
+        .ai-btn { padding: 0.6rem 1.5rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; border: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .ai-btn-primary { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: #fff; }
+        .ai-btn-primary:hover { background: linear-gradient(135deg, #c4b5fd, #8b5cf6); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); }
+        .ai-btn-secondary { background: rgba(167, 139, 250, 0.1); color: #c4b5fd; border: 1px solid rgba(167, 139, 250, 0.25); }
+        .ai-btn-secondary:hover { background: rgba(167, 139, 250, 0.2); }
+        .ai-btn-sm { padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: 6px; }
+        .ai-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .ai-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .ai-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        @media (max-width: 768px) {
+            .ai-grid-2, .ai-grid-3, .ai-grid-4 { grid-template-columns: 1fr; }
+        }
+        .ai-label { display: block; font-size: 0.8rem; color: #555; margin-bottom: 0.35rem; }
+        .ai-select { width: 100%; padding: 0.65rem 0.85rem; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; color: #333; font-size: 0.85rem; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236c5ce7' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem; }
+        .ai-select:focus { border-color: #6c5ce7; }
+        .ai-upload-zone { border: 2px dashed rgba(167, 139, 250, 0.3); border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .ai-upload-zone:hover { border-color: #a78bfa; background: rgba(167, 139, 250, 0.05); }
+        .ai-upload-zone i { font-size: 2rem; color: #a78bfa; margin-bottom: 0.5rem; }
+        .ai-upload-zone p { color: #94a3b8; font-size: 0.85rem; }
+        .ai-result-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .ai-result-item { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #e8e8e8; background: #fafafa; }
+        .ai-result-item img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.5s; }
+        .ai-result-item:hover img { transform: scale(1.03); }
+        .ai-result-actions { position: absolute; bottom: 0; left: 0; right: 0; padding: 0.5rem; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; gap: 0.5rem; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .ai-result-item:hover .ai-result-actions { opacity: 1; }
+        .ai-result-actions button { padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; border: none; cursor: pointer; color: #fff; background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+        .ai-result-actions button:hover { background: rgba(255,255,255,0.3); }
+        .ai-toggle-panel { cursor: pointer; user-select: none; }
+        .ai-toggle-panel .toggle-icon { transition: transform 0.3s; display: inline-block; }
+        .ai-toggle-panel.open .toggle-icon { transform: rotate(90deg); }
+        .ai-config-panel { overflow: hidden; transition: max-height 0.4s ease; }
+        .ai-config-panel.collapsed { max-height: 0; }
+        .ai-config-panel.expanded { max-height: 600px; }
+        .ai-size-btn { padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; border: 1px solid rgba(167, 139, 250, 0.25); background: rgba(15, 15, 30, 0.6); color: #94a3b8; transition: all 0.2s; text-align: center; }
+        .ai-size-btn:hover { border-color: #a78bfa; color: #c4b5fd; }
+        .ai-size-btn.active { background: rgba(167, 139, 250, 0.2); border-color: #a78bfa; color: #a78bfa; font-weight: 600; }
+        .ai-generating { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 2rem; color: #a78bfa; }
+        .ai-spinner { width: 24px; height: 24px; border: 3px solid rgba(167, 139, 250, 0.2); border-top-color: #a78bfa; border-radius: 50%; animation: ai-spin 0.8s linear infinite; }
+        @keyframes ai-spin { to { transform: rotate(360deg); } }
+        .ai-error { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 1rem; color: #fca5a5; font-size: 0.85rem; margin-top: 1rem; }
+        .ai-success { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; padding: 1rem; color: #86efac; font-size: 0.85rem; margin-top: 0.5rem; }
+
     </style>
 </head>
 <body class="font-sans selection:bg-gray-200">
@@ -3189,7 +3370,7 @@
               }
 
               return (
-                  <div className={`animate-fade-in py-10 px-4 md:px-8 max-w-[1600px] mx-auto ${isMasonry ? 'bg-white/50' : ''}`}>
+                  <div className={`animate-fade-in py-10 px-4 md:px-6 lg:px-8 max-w-full mx-auto ${isMasonry ? 'bg-white/50' : ''}`}>
                       <div className="text-center mb-8 flex flex-col justify-center items-center gap-4">
                           <div>
                               <h1 className="text-3xl font-serif tracking-widest text-[#313131]">{displayTitle}</h1>
@@ -3223,7 +3404,7 @@
                           </div>
                       )}
                       
-                      <div className={isMasonry ? "masonry-grid" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"}>
+                      <div className={isMasonry ? "masonry-grid" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-5 xl:gap-6"}>
                           {filteredList.map(item => {
                               const parsedVid = parseVideoUrl(item.vid);
                               return (
@@ -3936,9 +4117,20 @@
                                   <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
                                       <div className="flex justify-between items-center mb-3 border-b pb-2">
                                           <span className="font-bold text-blue-600">排版修改 - {focusedField.label}</span>
-                                          <button onClick={()=>setFocusedField(null)}><i className="ri-close-line"></i></button>
+                                          <button onClick={()=>setFocusedField(null)} className="text-gray-400 hover:text-gray-600"><i className="ri-close-line text-lg"></i></button>
                                       </div>
                                       <div className="space-y-4">
+                                          {/* 实时预览 */}
+                                          <div className="p-3 bg-white border border-gray-200 rounded-md text-center overflow-hidden" style={{
+                                              fontSize: data.customStyles?.[focusedField.key]?.fontSize || '16px',
+                                              fontFamily: data.customStyles?.[focusedField.key]?.fontFamily || 'inherit',
+                                              fontWeight: data.customStyles?.[focusedField.key]?.fontWeight || 'normal',
+                                              ...(data.customStyles?.[focusedField.key]?.isGradient
+                                                  ? { backgroundImage: data.customStyles?.[focusedField.key]?.color || 'linear-gradient(to right, #bf953f, #fcf6ba)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', color: 'transparent' }
+                                                  : { color: data.customStyles?.[focusedField.key]?.color || '#313131' })
+                                          }}>{focusedField.label} 预览效果</div>
+
+                                          {/* 字号 */}
                                           <div>
                                               <label className="block text-xs text-gray-500 mb-1">文字字号 (px)</label>
                                               <div className="flex items-center gap-2">
@@ -3947,6 +4139,20 @@
                                                   <span className="text-xs text-gray-500">px</span>
                                               </div>
                                           </div>
+
+                                          {/* 字重 */}
+                                          <div>
+                                              <label className="block text-xs text-gray-500 mb-1">字重</label>
+                                              <select className="w-full p-1.5 border rounded text-xs" value={data.customStyles?.[focusedField.key]?.fontWeight||''} onChange={e=>handleUpdateCustomStyle(focusedField.key,'fontWeight',e.target.value)}>
+                                                  <option value="">默认</option>
+                                                  <option value="300">细体 (300)</option>
+                                                  <option value="400">常规 (400)</option>
+                                                  <option value="500">中等 (500)</option>
+                                                  <option value="700">粗体 (700)</option>
+                                              </select>
+                                          </div>
+
+                                          {/* 字体样式 */}
                                           <div>
                                               <label className="block text-xs text-gray-500 mb-1">字体样式</label>
                                               <select className="w-full p-1.5 border rounded text-xs" value={data.customStyles?.[focusedField.key]?.fontFamily||''} onChange={e=>handleUpdateCustomStyle(focusedField.key,'fontFamily',e.target.value)}>
@@ -3956,9 +4162,24 @@
                                                   <option value="'Playfair Display', serif">标题西文 (Playfair)</option>
                                               </select>
                                           </div>
-                                          <div className="flex gap-2">
-                                              <input type="color" className="w-8 h-8 p-0 border-0" value={data.customStyles?.[focusedField.key]?.color||'#313131'} onChange={e=>handleUpdateCustomStyle(focusedField.key,'color',e.target.value)} />
-                                              <input className="flex-1 p-1.5 text-xs border rounded" placeholder="颜色代码或渐变" value={data.customStyles?.[focusedField.key]?.color||''} onChange={e=>handleUpdateCustomStyle(focusedField.key,'color',e.target.value)} />
+
+                                          {/* 字体颜色 */}
+                                          <div>
+                                              <label className="block text-xs text-gray-500 mb-1">字体颜色</label>
+                                              <div className="flex gap-2 mb-1">
+                                                  <input type="color" className="w-8 h-8 p-0 border rounded cursor-pointer" value={data.customStyles?.[focusedField.key]?.color||'#313131'} onChange={e=>handleUpdateCustomStyle(focusedField.key,'color',e.target.value)} />
+                                                  <input className="flex-1 p-1.5 text-xs border rounded" placeholder="颜色代码如 #313131" value={(data.customStyles?.[focusedField.key]?.isGradient?'':data.customStyles?.[focusedField.key]?.color)||''} onChange={e=>handleUpdateCustomStyle(focusedField.key,'color',e.target.value)} />
+                                              </div>
+                                              {/* 渐变开关 */}
+                                              <div className="flex items-center gap-2 pt-1">
+                                                  <label className="text-[10px] text-gray-400 cursor-pointer select-none flex items-center gap-1">
+                                                      <input type="checkbox" checked={data.customStyles?.[focusedField.key]?.isGradient||false} onChange={e=>handleUpdateCustomStyle(focusedField.key,'isGradient',e.target.checked)} className="w-3 h-3" />
+                                                      渐变色模式
+                                                  </label>
+                                                  {data.customStyles?.[focusedField.key]?.isGradient && (
+                                                      <input className="flex-1 p-1 text-[10px] border rounded" placeholder="渐变代码 如 linear-gradient(to right, #bf953f, #fcf6ba)" value={data.customStyles?.[focusedField.key]?.color||''} onChange={e=>handleUpdateCustomStyle(focusedField.key,'color',e.target.value)} />
+                                                  )}
+                                              </div>
                                           </div>
                                           
                                           {/* 针对语言切换器的专属文本修改器 */}
@@ -4255,6 +4476,504 @@
                               );
                           }
                           
+                          if (routeMenu.id === 'ai_prompt') {
+                              return (
+                                  <div className="animate-fade-in" style={{height: 'calc(100vh - 180px)', overflow: 'hidden'}}>
+                                      <iframe 
+                                          src="index.html" 
+                                          style={{width: '100%', height: '100%', border: 'none'}}
+                                          title="AI提示词仓库"
+                                          allow="clipboard-write"
+                                      />
+                                  </div>
+                              );
+                          }
+
+                                                    if (routeMenu.id === 'ai_image') {
+                              const sizeMap = {
+                                  '1024x1024': { w: 1024, h: 1024, label: '1:1 正方形' },
+                                  '1024x1792': { w: 1024, h: 1792, label: '3:4 竖版' },
+                                  '1792x1024': { w: 1792, h: 1024, label: '4:3 横版' },
+                                  '1024x768': { w: 1024, h: 768, label: '4:3 标准' },
+                                  '768x1344': { w: 768, h: 1344, label: '9:16 手机' },
+                                  '1344x768': { w: 1344, h: 768, label: '16:9 宽屏' }
+                              };
+                              const selectedSize = sizeMap[aiImageSize] || sizeMap['1024x1024'];
+                              
+                              const templates = [
+                                  { id: 'realistic', label: '写实', icon: 'ri-camera-lens-line', desc: '照片级真实感' },
+                                  { id: 'illustration', label: '插画', icon: 'ri-brush-line', desc: '艺术插画风格' },
+                                  { id: 'concept', label: '概念', icon: 'ri-lightbulb-line', desc: '概念设计风格' },
+                                  { id: 'architecture', label: '建筑', icon: 'ri-building-line', desc: '建筑可视化' },
+                                  { id: 'anime', label: '动漫', icon: 'ri-emotion-line', desc: '二次元风格' },
+                                  { id: 'product', label: '产品', icon: 'ri-smartphone-line', desc: '产品渲染风格' }
+                              ];
+                              
+                              const handleGenerate = async () => {
+                                  if (!aiImagePrompt.trim()) { setAiImageError('请输入提示词'); return; }
+                                  if (!apiConfig.apiKey) { setAiImageError('请先在 API 配置面板中设置 API Key'); return; }
+                                  setAiImageLoading(true); setAiImageError(''); setAiImageResults([]);
+                                  try {
+                                      const baseUrl = apiConfig.baseUrl.replace(/\/+$/, '');
+                                      let endpoint, body, headers;
+                                      if (apiConfig.apiFormat === 'openai') {
+                                          endpoint = baseUrl + '/v1/images/generations';
+                                          headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiConfig.apiKey };
+                                          body = {
+                                              model: apiConfig.model === 'custom' ? (apiConfig.customModel || 'dall-e-3') : apiConfig.model,
+                                              prompt: aiImagePrompt + (aiImageNegative ? ' --no ' + aiImageNegative : ''),
+                                              n: aiImageCount,
+                                              size: aiImageSize,
+                                              response_format: 'url'
+                                          };
+                                      } else if (apiConfig.apiFormat === 'stability') {
+                                          endpoint = baseUrl + '/v1/generation/' + (apiConfig.model === 'custom' ? (apiConfig.customModel || 'stable-diffusion-xl-1024-v1-0') : apiConfig.model) + '/text-to-image';
+                                          headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiConfig.apiKey };
+                                          body = {
+                                              text_prompts: [{ text: aiImagePrompt, weight: 1 }].concat(aiImageNegative ? [{ text: aiImageNegative, weight: -1 }] : []),
+                                              cfg_scale: 7, height: selectedSize.h, width: selectedSize.w, samples: aiImageCount, steps: 30
+                                          };
+                                      } else {
+                                          endpoint = baseUrl;
+                                          headers = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiConfig.apiKey };
+                                          body = { prompt: aiImagePrompt, negative_prompt: aiImageNegative, size: aiImageSize, count: aiImageCount };
+                                      }
+                                      const res = await fetch(endpoint, { method: 'POST', headers, body: JSON.stringify(body) });
+                                      if (!res.ok) { const err = await res.text(); throw new Error('API 错误 ' + res.status + ': ' + err.slice(0, 200)); }
+                                      const data = await res.json();
+                                      let urls = [];
+                                      if (apiConfig.apiFormat === 'openai' && data.data) {
+                                          urls = data.data.map(function(d) { return d.url || d.b64_json; });
+                                      } else if (apiConfig.apiFormat === 'stability' && data.artifacts) {
+                                          urls = data.artifacts.map(function(a) { return 'data:image/png;base64,' + a.base64; });
+                                      } else if (data.url) {
+                                          urls = [data.url];
+                                      } else {
+                                          urls = Array.isArray(data) ? data : [];
+                                      }
+                                      const results = urls.map(function(url) { return { src: url }; });
+                                      setAiImageResults(results);
+                                      if (aiActiveProjectId) {
+                                          const updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { results: results, updatedAt: Date.now() }) : p; });
+                                          setAiProjects(updated);
+                                          localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                      }
+                                  } catch (e) {
+                                      setAiImageError(e.message);
+                                  } finally {
+                                      setAiImageLoading(false);
+                                  }
+                              };
+                              
+                              const handleNewProject = function() {
+                                  if (!aiNewProjectName.trim()) return;
+                                  var newProj = {
+                                      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                                      name: aiNewProjectName.trim(),
+                                      prompt: '',
+                                      negative: '',
+                                      size: '1024x1024',
+                                      count: 1,
+                                      template: 'realistic',
+                                      results: [],
+                                      createdAt: Date.now(),
+                                      updatedAt: Date.now()
+                                  };
+                                  var updated = [newProj].concat(aiProjects).slice(0, 20);
+                                  setAiProjects(updated);
+                                  setAiActiveProjectId(newProj.id);
+                                  setAiNewProjectName('');
+                                  setAiShowNewProject(false);
+                                  setAiImagePrompt('');
+                                  setAiImageNegative('');
+                                  setAiImageResults([]);
+                                  localStorage.setItem('ai_projects', JSON.stringify(updated));
+                              };
+                              
+                              const handleSelectProject = function(proj) {
+                                  setAiActiveProjectId(proj.id);
+                                  setAiImagePrompt(proj.prompt || '');
+                                  setAiImageNegative(proj.negative || '');
+                                  setAiImageSize(proj.size || '1024x1024');
+                                  setAiImageCount(proj.count || 1);
+                                  setAiTemplate(proj.template || 'realistic');
+                                  setAiImageResults(proj.results || []);
+                              };
+                              
+                              const handleDeleteProject = function(projId, e) {
+                                  e.stopPropagation();
+                                  var updated = aiProjects.filter(function(p) { return p.id !== projId; });
+                                  setAiProjects(updated);
+                                  localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                  if (aiActiveProjectId === projId) {
+                                      setAiActiveProjectId(null);
+                                      setAiImagePrompt('');
+                                      setAiImageResults([]);
+                                  }
+                              };
+                              
+                              var activeProject = aiProjects.find(function(p) { return p.id === aiActiveProjectId; });
+                              
+                              return (
+                                  <div className="ai-canvas-wrapper">
+                                      <div className="ai-project-bar">
+                                          <div className="ai-project-bar-left">
+                                              <span className="ai-project-bar-title">
+                                                  <i className="ri-magic-line"></i> AI 创作画布
+                                              </span>
+                                              <div className="ai-project-tabs">
+                                                  {aiProjects.slice(0, 10).map(function(p) {
+                                                      return (
+                                                          <button key={p.id}
+                                                              className={'ai-project-tab' + (p.id === aiActiveProjectId ? ' active' : '')}
+                                                              onClick={function() { handleSelectProject(p); }}
+                                                              title={p.name}>
+                                                              <span className="ai-project-tab-name">{p.name}</span>
+                                                              <span className="ai-project-tab-del" onClick={function(e) { handleDeleteProject(p.id, e); }}>
+                                                                  <i className="ri-close-line"></i>
+                                                              </span>
+                                                          </button>
+                                                      );
+                                                  })}
+                                              </div>
+                                          </div>
+                                          <div className="ai-project-bar-right">
+                                              <button className="ai-project-add-btn" onClick={function() { setAiNewProjectName(''); setAiShowNewProject(true); }}>
+                                                  <i className="ri-add-line"></i> 新建项目
+                                              </button>
+                                              <button className="ai-config-toggle-btn" onClick={function() { setShowApiConfigPanel(!showApiConfigPanel); }}
+                                                  title="API 配置">
+                                                  <i className="ri-settings-3-line"></i>
+                                              </button>
+                                          </div>
+                                      </div>
+                                      
+                                      {aiShowNewProject && (
+                                          <div className="ai-modal-overlay" onClick={function() { setAiShowNewProject(false); }}>
+                                              <div className="ai-modal" onClick={function(e) { e.stopPropagation(); }}>
+                                                  <div className="ai-modal-header">
+                                                      <h3><i className="ri-folder-add-line"></i> 新建创作项目</h3>
+                                                      <button className="ai-modal-close" onClick={function() { setAiShowNewProject(false); }}>
+                                                          <i className="ri-close-line"></i>
+                                                      </button>
+                                                  </div>
+                                                  <div className="ai-modal-body">
+                                                      <label className="ai-label">项目名称</label>
+                                                      <input className="ai-input" autoFocus
+                                                          value={aiNewProjectName}
+                                                          onChange={function(e) { setAiNewProjectName(e.target.value); }}
+                                                          onKeyDown={function(e) { if (e.key === 'Enter') handleNewProject(); }}
+                                                          placeholder="例如：产品海报设计、概念图稿..." />
+                                                      <div style={{marginTop:'1rem'}}>
+                                                          <label className="ai-label">选择风格模板</label>
+                                                          <div className="ai-template-grid">
+                                                              {templates.map(function(t) {
+                                                                  return (
+                                                                      <button key={t.id}
+                                                                          className={'ai-template-btn' + (aiTemplate === t.id ? ' active' : '')}
+                                                                          onClick={function() { setAiTemplate(t.id); }}>
+                                                                          <i className={t.icon}></i>
+                                                                          <span>{t.label}</span>
+                                                                      </button>
+                                                                  );
+                                                              })}
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div className="ai-modal-footer">
+                                                      <button className="ai-btn ai-btn-secondary" onClick={function() { setAiShowNewProject(false); }}>取消</button>
+                                                      <button className="ai-btn ai-btn-primary" onClick={handleNewProject}
+                                                          disabled={!aiNewProjectName.trim()}>
+                                                          <i className="ri-check-line"></i> 创建项目
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      )}
+                                      
+                                      <div className="ai-canvas-main">
+                                          <div className="ai-canvas-left">
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-cpu-line"></i> AI 模型</h3>
+                                                  <div className="ai-model-list">
+                                                      {[
+                                                          { value: 'gpt-image-2', label: 'GPT-image-2', tag: '推荐', desc: 'OpenAI 最新图像生成模型' },
+                                                          { value: 'dall-e-3', label: 'DALL-E 3', desc: '高质量图像生成' },
+                                                          { value: 'dall-e-2', label: 'DALL-E 2', desc: '经典图像模型' },
+                                                          { value: 'sdxl-1.0', label: 'Stable Diffusion XL 1.0', desc: 'Stability AI 旗舰模型' },
+                                                          { value: 'sdxl-0.9', label: 'Stable Diffusion XL 0.9', desc: '开源社区首选' },
+                                                          { value: 'custom', label: '自定义模型', desc: '使用自定义模型名称' }
+                                                      ].map(function(m) {
+                                                          const isActive = apiConfig.model === m.value;
+                                                          return (
+                                                              <button key={m.value}
+                                                                  className={'ai-model-item' + (isActive ? ' active' : '')}
+                                                                  onClick={function() { saveApiConfig(Object.assign({}, apiConfig, { model: m.value })); }}>
+                                                                  <span className="ai-model-radio">
+                                                                      {isActive ? <i className="ri-checkbox-circle-fill"></i> : <i className="ri-checkbox-blank-circle-line"></i>}
+                                                                  </span>
+                                                                  <span className="ai-model-info">
+                                                                      <span className="ai-model-label">{m.label}{m.tag ? <span className="ai-model-tag">{m.tag}</span> : null}</span>
+                                                                      <span className="ai-model-desc">{m.desc}</span>
+                                                                  </span>
+                                                              </button>
+                                                          );
+                                                      })}
+                                                  </div>
+                                                  {apiConfig.model === 'custom' && (
+                                                      <input className="ai-input" style={{marginTop:'0.5rem'}}
+                                                          value={apiConfig.customModel || ''}
+                                                          onChange={function(e) { saveApiConfig(Object.assign({}, apiConfig, { customModel: e.target.value })); }}
+                                                          placeholder="输入自定义模型名称" />
+                                                  )}
+                                              </div>
+                                              
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-palette-line"></i> 风格模板</h3>
+                                                  <div className="ai-template-grid">
+                                                      {templates.map(function(t) {
+                                                          return (
+                                                              <button key={t.id}
+                                                                  className={'ai-template-btn' + (aiTemplate === t.id ? ' active' : '')}
+                                                                  onClick={function() { setAiTemplate(t.id); }}
+                                                                  title={t.desc}>
+                                                                  <i className={t.icon}></i>
+                                                                  <span>{t.label}</span>
+                                                              </button>
+                                                          );
+                                                      })}
+                                                  </div>
+                                              </div>
+                                              
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-text-spacing"></i> 正向提示词</h3>
+                                                  <textarea className="ai-input ai-textarea" id="ai-image-prompt-input"
+                                                      value={aiImagePrompt}
+                                                      onChange={function(e) {
+                                                          setAiImagePrompt(e.target.value);
+                                                          if (activeProject) {
+                                                              var updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { prompt: e.target.value }) : p; });
+                                                              setAiProjects(updated);
+                                                              localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                                          }
+                                                      }}
+                                                      placeholder={'描述你想要生成的图像，支持中英文...\n例如：一只坐在咖啡馆里的橘猫，阳光透过窗户，写实风格'} />
+                                              </div>
+                                              
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-forbid-line"></i> 负向提示词</h3>
+                                                  <input className="ai-input" style={{minHeight:'auto'}}
+                                                      value={aiImageNegative}
+                                                      onChange={function(e) {
+                                                          setAiImageNegative(e.target.value);
+                                                          if (activeProject) {
+                                                              var updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { negative: e.target.value }) : p; });
+                                                              setAiProjects(updated);
+                                                              localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                                          }
+                                                      }}
+                                                      placeholder="不希望出现的内容，如：模糊、变形、多余手指" />
+                                              </div>
+                                              
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-aspect-ratio-line"></i> 图片尺寸</h3>
+                                                  <div className="ai-size-grid">
+                                                      {Object.entries(sizeMap).map(function(entry) {
+                                                          var key = entry[0], val = entry[1];
+                                                          return (
+                                                              <button key={key}
+                                                                  className={'ai-size-btn' + (aiImageSize === key ? ' active' : '')}
+                                                                  onClick={function() {
+                                                                      setAiImageSize(key);
+                                                                      if (activeProject) {
+                                                                          var updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { size: key }) : p; });
+                                                                          setAiProjects(updated);
+                                                                          localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                                                      }
+                                                                  }}>
+                                                                  <span className="ai-size-label">{val.label}</span>
+                                                                  <span className="ai-size-dims">{key}</span>
+                                                              </button>
+                                                          );
+                                                      })}
+                                                  </div>
+                                              </div>
+                                              
+                                              <div className="ai-canvas-section">
+                                                  <h3><i className="ri-stack-line"></i> 生成数量</h3>
+                                                  <div className="ai-count-row">
+                                                      {[1,2,3,4].map(function(n) {
+                                                          return (
+                                                              <button key={n}
+                                                                  className={'ai-count-btn' + (aiImageCount === n ? ' active' : '')}
+                                                                  onClick={function() {
+                                                                      setAiImageCount(n);
+                                                                      if (activeProject) {
+                                                                          var updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { count: n }) : p; });
+                                                                          setAiProjects(updated);
+                                                                          localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                                                      }
+                                                                  }}>{n}</button>
+                                                          );
+                                                      })}
+                                                  </div>
+                                              </div>
+                                              
+                                              <button className="ai-generate-btn" onClick={handleGenerate} disabled={aiImageLoading}>
+                                                  {aiImageLoading ? (
+                                                      React.createElement(React.Fragment, null,
+                                                          React.createElement('span', { className: 'ai-spinner' }),
+                                                          ' 生成中...'
+                                                      )
+                                                  ) : (
+                                                      React.createElement(React.Fragment, null,
+                                                          React.createElement('i', { className: 'ri-brush-line' }),
+                                                          ' 开始生成图片'
+                                                      )
+                                                  )}
+                                              </button>
+                                          </div>
+                                          
+                                          <div className="ai-canvas-right">
+                                              {aiImageLoading ? (
+                                                  <div className="ai-canvas-loading">
+                                                      <div className="ai-canvas-spinner"></div>
+                                                      <p className="ai-canvas-loading-title">AI 正在创作中...</p>
+                                                      <p className="ai-canvas-loading-sub">
+                                                          {aiTemplate === 'architecture' ? '正在构建建筑空间...' :
+                                                           aiTemplate === 'illustration' ? '正在绘制艺术画面...' :
+                                                           aiTemplate === 'anime' ? '正在渲染动漫风格...' :
+                                                           aiTemplate === 'concept' ? '正在构思概念设计...' :
+                                                           '正在将你的灵感变为现实...'}
+                                                      </p>
+                                                      <div className="ai-canvas-loading-bar">
+                                                          <div className="ai-canvas-loading-progress"></div>
+                                                      </div>
+                                                  </div>
+                                              ) : aiImageError ? (
+                                                  <div className="ai-canvas-error">
+                                                      <i className="ri-error-warning-line"></i>
+                                                      <p>{aiImageError}</p>
+                                                  </div>
+                                              ) : aiImageResults.length > 0 ? (
+                                                  <div className="ai-canvas-results">
+                                                      {aiImageResults.map(function(result, i) {
+                                                          return (
+                                                              <div key={i} className="ai-canvas-result-item">
+                                                                  <img src={result.src} alt={'生成结果 ' + (i+1)} />
+                                                                  <div className="ai-canvas-result-overlay">
+                                                                      <button onClick={function() {
+                                                                          var a = document.createElement('a');
+                                                                          a.href = result.src;
+                                                                          a.download = 'ai-image-' + Date.now() + '-' + (i+1) + '.png';
+                                                                          a.click();
+                                                                      }} title="下载">
+                                                                          <i className="ri-download-line"></i>
+                                                                      </button>
+                                                                      <button onClick={function() {
+                                                                          navigator.clipboard.writeText(result.src).catch(function() {});
+                                                                      }} title="复制链接">
+                                                                          <i className="ri-link"></i>
+                                                                      </button>
+                                                                      <button onClick={function() {
+                                                                          var updated = aiProjects.map(function(p) { return p.id === aiActiveProjectId ? Object.assign({}, p, { results: aiImageResults }) : p; });
+                                                                          setAiProjects(updated);
+                                                                          localStorage.setItem('ai_projects', JSON.stringify(updated));
+                                                                      }} title="保存到项目">
+                                                                          <i className="ri-save-line"></i>
+                                                                      </button>
+                                                                  </div>
+                                                                  <div className="ai-canvas-result-index">{i+1}</div>
+                                                              </div>
+                                                          );
+                                                      })}
+                                                  </div>
+                                              ) : (
+                                                  <div className="ai-canvas-empty">
+                                                      <div className="ai-canvas-empty-icon">
+                                                          <i className="ri-image-add-line"></i>
+                                                      </div>
+                                                      <h3>AI 创作无限画布</h3>
+                                                      <p>在左侧输入提示词，选择风格模板，<br/>让 AI 帮你将灵感变为现实</p>
+                                                      {aiProjects.length === 0 && (
+                                                          <button className="ai-btn ai-btn-primary" style={{marginTop:'1.5rem'}}
+                                                              onClick={function() { setAiNewProjectName(''); setAiShowNewProject(true); }}>
+                                                              <i className="ri-folder-add-line"></i> 创建第一个项目
+                                                          </button>
+                                                      )}
+                                                  </div>
+                                              )}
+                                              
+                                              {aiImageResults.length > 0 && (
+                                                  <div className="ai-canvas-history">
+                                                      {aiImageResults.map(function(result, i) {
+                                                          return (
+                                                              <div key={i} className="ai-canvas-history-item" title={'结果 ' + (i+1)}>
+                                                                  <img src={result.src} alt={'缩略图 ' + (i+1)} />
+                                                              </div>
+                                                          );
+                                                      })}
+                                                  </div>
+                                              )}
+                                          </div>
+                                      </div>
+                                      
+                                      {showApiConfigPanel && (
+                                          <div className="ai-api-config-overlay">
+                                              <div className="ai-api-config-panel">
+                                                  <div className="ai-card-header ai-toggle-panel" onClick={function() { setShowApiConfigPanel(false); }}>
+                                                      <i className="ri-settings-3-line"></i>
+                                                      <span>API 配置</span>
+                                                      <i className="ri-close-line" style={{marginLeft:'auto'}}></i>
+                                                  </div>
+                                                  <div style={{padding:'1.5rem'}}>
+                                                      <div className="ai-grid-2" style={{marginBottom:'1rem'}}>
+                                                          <div>
+                                                              <label className="ai-label">Base URL</label>
+                                                              <input className="ai-input" value={apiConfig.baseUrl}
+                                                                  onChange={function(e) { saveApiConfig(Object.assign({}, apiConfig, { baseUrl: e.target.value })); }}
+                                                                  placeholder="https://api.openai.com" />
+                                                          </div>
+                                                          <div>
+                                                              <label className="ai-label">API Key</label>
+                                                              <input type="password" className="ai-input" value={apiConfig.apiKey}
+                                                                  onChange={function(e) { saveApiConfig(Object.assign({}, apiConfig, { apiKey: e.target.value })); }}
+                                                                  placeholder="sk-..." />
+                                                          </div>
+                                                      </div>
+                                                      <div className="ai-grid-2" style={{marginBottom:'1rem'}}>
+                                                          <div>
+                                                              <label className="ai-label">API 格式</label>
+                                                              <select className="ai-select" value={apiConfig.apiFormat}
+                                                                  onChange={function(e) { saveApiConfig(Object.assign({}, apiConfig, { apiFormat: e.target.value })); }}>
+                                                                  <option value="openai">OpenAI 兼容</option>
+                                                                  <option value="stability">Stability AI</option>
+                                                                  <option value="generic">通用格式</option>
+                                                              </select>
+                                                          </div>
+                                                          <div>
+                                                              <label className="ai-label">模型</label>
+                                                              <select className="ai-select" value={apiConfig.model}
+                                                                  onChange={function(e) { saveApiConfig(Object.assign({}, apiConfig, { model: e.target.value })); }}>
+                                                                  <option value="gpt-image-2">GPT-image-2</option>
+                                                                  <option value="dall-e-3">DALL-E 3</option>
+                                                                  <option value="dall-e-2">DALL-E 2</option>
+                                                                  <option value="sdxl-1.0">SDXL 1.0</option>
+                                                                  <option value="sdxl-0.9">SDXL 0.9</option>
+                                                                  <option value="custom">自定义</option>
+                                                              </select>
+                                                          </div>
+                                                      </div>
+                                                      <div style={{fontSize:'0.75rem', color:'#64748b', textAlign:'center'}}>
+                                                          <i className="ri-information-line"></i> 配置自动保存到浏览器本地存储
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      )}
+                                  </div>
+                              );
+                          }
                           if (routeMenu.template === 'video' || routeMenu.id === 'videos') return renderGalleryStyle(routeMenu.id, routeMenu.label, '');
                           if (routeMenu.template === 'image' || routeMenu.id === 'gallery' || routeMenu.id === 'materials' || routeMenu.id === 'plants') return renderGalleryStyle(routeMenu.id, routeMenu.label, '', true);
                           if (routeMenu.template === 'process' || routeMenu.id.startsWith('process')) return renderProcess(routeMenu.id, routeMenu.label);
@@ -4350,6 +5069,8 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
+    
     
     
     

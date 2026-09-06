@@ -97,7 +97,15 @@
 
 
 
+
         const { useState, useEffect, useRef } = React;
+
+        // ===== 飞书文档分享页（隐藏运行，激活 drive 直链权限）=====
+        // 视频直链为 feishu drive-stream 链接，须先"运行"对应分享页才能在本机/访客设备顺利播放。
+        // 站点加载后会用不可见 iframe 自动访问以下页面，不打扰浏览。需要新增请直接追加 URL。
+        const FEISHU_WAKE_URLS = [
+            'https://my.feishu.cn/file/boxcnix2iuao1gn2yPqEGkGMVhc'
+        ];
 
         const GRADIENT_PRESETS = [
           { name: '晨曦', value: 'linear-gradient(to right, #fdfbfb 0%, #ebedee 100%)' },
@@ -109,6 +117,9 @@
 // <DATA_START>
         const IS_ENCRYPTED = false;
         const RAW_DATA = {
+  "feishuWakeUrls": [
+    "https://my.feishu.cn/file/boxcnix2iuao1gn2yPqEGkGMVhc"
+  ],
   "logos": {
     "topLeft": {
       "type": "image",
@@ -2056,6 +2067,8 @@
                         className={`w-full h-full object-${objectFit} transition-opacity duration-1000`} 
                         autoPlay playsInline loop={loop} 
                         muted={isMuted}
+                        draggable={false}
+                        onContextMenu={(e)=>{e.preventDefault();}}
                         onEnded={onEnded}
                         onTimeUpdate={handleTimeUpdate}
                         onClick={togglePlay}
@@ -2189,9 +2202,81 @@
             { icon: 'ri-global-line', label: '自定义网址', labelEn: 'Website', value: '点击访问', link: 'https://', qr: '' }
         ];
 
+        // ===== 视频全屏播放器（点击视频后进入原生全屏；内置禁下载/禁拖拽/禁右键）=====
+        const VideoFullscreenPlayer = ({ parsed, iframeSrc, onClose }) => {
+            const stageRef = React.useRef(null);
+            React.useEffect(() => {
+                const stage = stageRef.current;
+                if (!stage) return;
+                let entered = false;   // 是否真正进入过全屏，用于区分"ESC退出"与"全屏申请失败"
+                const tryFull = () => {
+                    try {
+                        if (stage.requestFullscreen) {
+                            stage.requestFullscreen().then(() => { entered = true; }).catch(() => {});
+                        } else if (stage.webkitRequestFullscreen) {
+                            stage.webkitRequestFullscreen();
+                            entered = true;
+                        }
+                    } catch (e) { /* 忽略，退化为弹窗播放 */ }
+                };
+                const fsTimer = setTimeout(tryFull, 80); // 保持在用户点击激活窗口内
+                const onFsChange = () => {
+                    const hasFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+                    if (entered && !hasFs) onClose();
+                };
+                document.addEventListener('fullscreenchange', onFsChange);
+                document.addEventListener('webkitfullscreenchange', onFsChange);
+                const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+                document.addEventListener('keydown', onKey);
+                return () => {
+                    clearTimeout(fsTimer);
+                    document.removeEventListener('fullscreenchange', onFsChange);
+                    document.removeEventListener('webkitfullscreenchange', onFsChange);
+                    document.removeEventListener('keydown', onKey);
+                };
+            }, []);
+
+            const closeAll = () => {
+                try {
+                    if (document.fullscreenElement) document.exitFullscreen();
+                    else if (document.webkitFullscreenElement) document.webkitFullscreenElement();
+                } catch (e) {}
+                onClose();
+            };
+            const blockCtx = (e) => { try { e.preventDefault(); } catch (err) {} };
+
+            return (
+                <div ref={stageRef} className="fixed inset-0 z-[100] bg-black flex items-center justify-center animate-fade-in" onClick={closeAll}>
+                    <button onClick={(e)=>{e.stopPropagation(); closeAll();}} className="absolute top-6 right-6 md:top-8 md:right-8 text-white/70 hover:text-white z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-md transition-all cursor-pointer"><i className="ri-close-line text-2xl"></i></button>
+                    <div className="w-full h-full flex items-center justify-center px-4 relative">
+                        {parsed.isIframe ? (
+                            <iframe src={iframeSrc} className="w-full h-full border-0 bg-black" allowFullScreen allow="autoplay; fullscreen; encrypted-media" onContextMenu={blockCtx}></iframe>
+                        ) : (
+                            <video src={parsed.url} controls autoPlay playsInline
+                                className="w-full h-full object-contain bg-black"
+                                controlsList="nodownload noremoteplayback noplaybackrate"
+                                disablePictureInPicture
+                                draggable={false}
+                                onContextMenu={blockCtx}
+                                onClick={(e)=>e.stopPropagation()}
+                            ></video>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
         function App() {
           const [data, setData] = useState(PARSED_DATA);
-          const [isEditing, setIsEditing] = useState(false); 
+          const [isEditing, setIsEditing] = useState(false);
+          // 飞书分享页后台管理草稿（持久化到 data.feishuWakeUrls，随导出保留）
+          const [wakeUrlDraft, setWakeUrlDraft] = useState(() => (Array.isArray(data.feishuWakeUrls) ? data.feishuWakeUrls : (FEISHU_WAKE_URLS || []).slice()));
+          const handleWakeSave = () => {
+              const urls = (wakeUrlDraft || []).map(u => (u || '').trim()).filter(Boolean);
+              setWakeUrlDraft(urls);
+              setData(p => ({ ...p, feishuWakeUrls: urls }));
+              if (window.__showToast) window.__showToast('飞书分享页已保存并立即激活');
+          }; 
           const [currentRoute, setCurrentRoute] = useState('home'); 
           const [currentLang, setCurrentLang] = useState('cn'); 
           const [activeDetail, setActiveDetail] = useState(null); 
@@ -2467,6 +2552,37 @@
               });
               return aggregated;
           };
+
+          // ===== 隐藏运行飞书文档分享页：自动激活图片/视频直链，访客设备无需手动干预 =====
+          // 链接列表来自后台「飞书分享页管理」（data.feishuWakeUrls），保存后自动重建唤醒 iframe
+          useEffect(() => {
+              const urls = (data.feishuWakeUrls && Array.isArray(data.feishuWakeUrls) ? data.feishuWakeUrls : FEISHU_WAKE_URLS || [])
+                  .map(u => (u || '').trim()).filter(Boolean);
+              if (!urls.length) return;
+              const frames = [];
+              const t1 = setTimeout(() => {
+                  urls.forEach((url) => {
+                      try {
+                          const fr = document.createElement('iframe');
+                          fr.src = url;
+                          fr.name = 'feishu_awakener';
+                          fr.setAttribute('aria-hidden', 'true');
+                          fr.setAttribute('tabindex', '-1');
+                          fr.setAttribute('data-fs-waker', '1');
+                          // 完全隐藏：移出视口 + 透明 + 不可交互，避免影响布局与滚动
+                          fr.style.cssText = 'position:fixed!important;left:-99999px!important;top:-99999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;border:0!important;visibility:hidden!important;';
+                          document.body.appendChild(fr);
+                          frames.push(fr);
+                      } catch (e) { /* 忽略单页失败 */ }
+                  });
+              }, 300);
+              return () => {
+                  clearTimeout(t1);
+                  frames.forEach(f => { try { f.remove(); } catch (e) {} });
+                  document.querySelectorAll('iframe[data-fs-waker="1"]').forEach(f => { try { f.remove(); } catch (e) {} });
+              };
+              // eslint-disable-next-line react-hooks/exhaustive-deps
+          }, [data.feishuWakeUrls]);
 
           useEffect(() => {
               window.__autoTranslateEnabled = autoTranslate;
@@ -3439,7 +3555,7 @@
                                                           )}
                                                       </div>
                                                   ) : (
-                                                      <video src={parsedVid.url} poster={item.img} className="w-full h-full object-cover" muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                                      <video src={parsedVid.url} poster={item.img} className="w-full h-full object-cover" muted loop playsInline controlsList="nodownload noremoteplayback" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
                                                   )}
                                                   
                                                   {(!parsedVid.isIframe || item.img) && (
@@ -3653,7 +3769,7 @@
                                                   )}
                                               </div>
                                           ) : (
-                                              <video src={parsedVid.url} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                              <video src={parsedVid.url} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline controlsList="nodownload noremoteplayback" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
                                           )
                                       ) : (
                                           <img src={item.img} className="w-full h-full object-cover" />
@@ -3873,7 +3989,7 @@
                                           {parsedVid.isIframe ? (
                                               <iframe src={parsedVid.url} className="w-full h-full border-0 absolute inset-0 z-0" allow="autoplay; fullscreen" allowFullScreen></iframe>
                                           ) : m.url ? (
-                                              <video src={parsedVid.url} controls playsInline className="w-full h-full object-cover relative z-0"></video>
+                                              <video src={parsedVid.url} controls playsInline controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} className="w-full h-full object-cover relative z-0"></video>
                                           ) : (
                                               <div className="w-full h-full flex items-center justify-center text-gray-400 relative z-0">填入视频地址以展示</div>
                                           )}
@@ -4245,6 +4361,27 @@
                                       ))}
                                   </div>
                                   <button onClick={()=>setShowAddMenuModal(true)} className="mt-3 w-full py-1.5 border border-dashed border-blue-400 text-blue-600 text-xs rounded hover:bg-blue-50"><i className="ri-add-line"></i> 新增自定义页面</button>
+                              </div>
+
+                              {/* 飞书分享页管理模块 */}
+                              <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+                                  <div className="flex justify-between items-center mb-2 border-b pb-2">
+                                      <h3 className="font-bold text-blue-600 flex items-center gap-2"><i className="ri-link-m"></i> 飞书分享页管理</h3>
+                                  </div>
+                                  <div className="text-[10px] text-gray-500 mb-2 leading-relaxed">站点加载后会隐藏访问以下分享页，以自动激活其中的视频 / 图片直链（访客无需手动操作）。每行一条链接，支持多条，保存后立即生效并随导出保留。</div>
+                                  <div className="space-y-2 max-h-52 overflow-y-auto pr-1 custom-scrollbar">
+                                      {(wakeUrlDraft || []).map((u, idx) => (
+                                          <div key={idx} className="flex gap-1 items-center">
+                                              <input className="flex-1 min-w-0 p-1.5 text-[11px] border rounded outline-none focus:border-blue-500 font-mono" placeholder="https://my.feishu.cn/file/xxx" value={u} onChange={e => { const arr = (wakeUrlDraft || []).slice(); arr[idx] = e.target.value; setWakeUrlDraft(arr); }} />
+                                              <button onClick={() => { const arr = (wakeUrlDraft || []).slice(); arr.splice(idx, 1); setWakeUrlDraft(arr); }} className="text-red-500 hover:bg-red-100 p-1 rounded shrink-0" title="删除该链接"><i className="ri-delete-bin-line"></i></button>
+                                          </div>
+                                      ))}
+                                  </div>
+                                  <button onClick={() => setWakeUrlDraft(w => (w || []).concat(''))} className="mt-2 w-full py-1.5 border border-dashed border-blue-400 text-blue-600 text-xs rounded hover:bg-blue-50"><i className="ri-add-line"></i> 添加链接</button>
+                                  <div className="flex gap-2 mt-2">
+                                      <button onClick={handleWakeSave} className="flex-1 py-1.5 text-xs font-bold bg-blue-600 text-white rounded hover:bg-blue-700"><i className="ri-save-line"></i> 保存并生效</button>
+                                      <button onClick={() => setWakeUrlDraft((Array.isArray(data.feishuWakeUrls) ? data.feishuWakeUrls : (FEISHU_WAKE_URLS || [])).slice())} className="px-3 py-1.5 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300"><i className="ri-refresh-line"></i> 还原</button>
+                                  </div>
                               </div>
 
                               {/* AI 生图设置模块 (源站后台合并) */}
@@ -4850,7 +4987,7 @@
                                                   return (
                                                       <div key={it.url + '_' + (it.time || '')} style={{breakInside: 'avoid', marginBottom: '14px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e6dcd0', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.06)'}}>
                                                           {isVid ? (
-                                                              <video src={it.url} controls preload="metadata" style={{width: '100%', display: 'block', aspectRatio: '1/1', objectFit: 'cover', background: '#000'}} />
+                                                              <video src={it.url} controls preload="metadata" controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} style={{width: '100%', display: 'block', aspectRatio: '1/1', objectFit: 'cover', background: '#000'}} />
                                                           ) : (
                                                               <img src={it.url} loading="lazy" referrerPolicy="no-referrer" style={{width: '100%', display: 'block'}} />
                                                           )}
@@ -4988,18 +5125,7 @@
                           }
                           if (!iframeSrc.includes('danmaku=')) iframeSrc += '&danmaku=0';
                       }
-                      return (
-                      <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center backdrop-blur-sm animate-fade-in" onClick={() => setPlayingVideo(null)}>
-                          <button onClick={(e)=>{e.stopPropagation(); setPlayingVideo(null);}} className="absolute top-6 right-6 md:top-8 md:right-8 text-white/50 hover:text-white z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-md transition-all"><i className="ri-close-line text-2xl"></i></button>
-                          <div className="w-full max-w-6xl aspect-video px-4 md:px-12 relative flex justify-center items-center">
-                              {parsed.isIframe ? (
-                                  <iframe src={iframeSrc} className="w-full h-full max-h-[80vh] shadow-2xl rounded border-0 bg-black" allowFullScreen allow="autoplay; fullscreen"></iframe>
-                              ) : (
-                                  <video src={parsed.url} controls autoPlay className="w-full h-full max-h-[80vh] shadow-2xl rounded bg-black" onClick={e=>e.stopPropagation()}></video>
-                              )}
-                          </div>
-                      </div>
-                      );
+                      return <VideoFullscreenPlayer key={playingVideo} parsed={parsed} iframeSrc={iframeSrc} onClose={() => setPlayingVideo(null)} />;
                   })()}
 
                   {lightboxImg && (() => {
@@ -5033,6 +5159,7 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
     
     
     

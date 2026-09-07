@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>PANDAS</title>
+    <title>PANDAS </title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -98,6 +98,7 @@
 
 
 
+
         const { useState, useEffect, useRef } = React;
 
         // ===== 飞书文档分享页（隐藏运行，激活 drive 直链权限）=====
@@ -120,6 +121,8 @@
   "feishuWakeUrls": [
     "https://my.feishu.cn/file/boxcnix2iuao1gn2yPqEGkGMVhc"
   ],
+  "siteTitle": "PANDAS ",
+  "siteTitleEn": "PANDAS ",
   "logos": {
     "topLeft": {
       "type": "image",
@@ -3236,8 +3239,9 @@
           const [currentLang, setCurrentLang] = useState('cn'); 
           // 页面标题随语言切换
           useEffect(() => {
-              document.title = currentLang === 'en' ? 'PANDAS Landscape Design' : 'PANDAS';
-          }, [currentLang]);
+              const t = currentLang === 'en' ? (data.siteTitleEn || 'PANDAS Landscape Design') : (data.siteTitle || 'PANDAS 景观设计 - 江山如画');
+              document.title = t;
+          }, [currentLang, data.siteTitle, data.siteTitleEn]);
           const [activeDetail, setActiveDetail] = useState(null); 
           const [focusedField, setFocusedField] = useState(null); 
           const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -4178,7 +4182,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>PANDAS</title>
+    <title>${data.siteTitle || 'PANDAS 景观设计 - 江山如画'}</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"><` + `/script>
@@ -4487,7 +4491,7 @@
                       </div>
                   </section>
 
-                  <section className="py-16 md:py-24 px-4 max-w-4xl mx-auto text-center flex flex-col items-center">
+                  <section className="py-16 md:py-24 px-4 md:px-8 w-full text-center flex flex-col items-center">
                       <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] text-aman-muted mb-8">About Us</p>
                       <EditableText data={data} lang={currentLang} isEditing={isEditing} onEdit={handleEditObj} onFocus={setFocusedField} field="title" tag="h1" className="text-2xl md:text-4xl font-serif mb-10 text-aman-text tracking-widest leading-snug" />
                       <EditableText data={data} lang={currentLang} isEditing={isEditing} onEdit={handleEditObj} onFocus={setFocusedField} field="desc" tag="p" className="text-xs md:text-sm text-aman-muted leading-[2.5] text-justify md:text-center max-w-3xl mx-auto font-sans font-light" />
@@ -4650,7 +4654,7 @@
               const menuRef = data.menus.find(m => m.id === menuId) || {};
               const menuLabel = currentLang === 'en' ? (menuRef.labelEn || menuRef.label || '方案文本案例') : (menuRef.label || '方案文本案例');
               return (
-                  <div className="animate-fade-in py-16 px-4 md:px-8 max-w-[1400px] mx-auto min-h-screen">
+                  <div className="animate-fade-in py-16 px-4 md:px-8 w-full min-h-screen">
                       <div className="text-center mb-16 flex flex-col justify-center items-center gap-4">
                           <h1 className="text-3xl md:text-4xl font-serif tracking-widest text-[#313131]">{menuLabel}</h1>
                           <p className="text-[10px] uppercase tracking-[0.3em] text-aman-muted">Selected Proposals & Documents</p>
@@ -4726,7 +4730,7 @@
               }
 
               return (
-                  <div className={`animate-fade-in py-10 px-4 md:px-8 max-w-[1600px] mx-auto ${isMasonry ? 'bg-white/50' : ''}`}>
+                  <div className={`animate-fade-in py-10 px-4 md:px-8 w-full ${isMasonry ? 'bg-white/50' : ''}`}>
                       <div className="text-center mb-8 flex flex-col justify-center items-center gap-4">
                           <div>
                               <h1 className="text-3xl font-serif tracking-widest text-[#313131]">{displayTitle}</h1>
@@ -4873,7 +4877,7 @@
               };
 
               return (
-                  <section className="animate-fade-in py-16 px-4 max-w-[1200px] mx-auto text-center min-h-screen">
+                  <section className="animate-fade-in py-16 px-4 md:px-8 w-full text-center min-h-screen">
                       <div className="flex justify-center items-center gap-4 mb-10">
                           <h1 className="text-3xl font-serif tracking-widest text-[#313131]">{displayTitle}</h1>
                       </div>
@@ -4969,7 +4973,7 @@
               if (!item) return null;
 
               return (
-                  <article className="animate-fade-in max-w-5xl mx-auto px-4 py-10 min-h-screen">
+                  <article className="animate-fade-in w-full px-4 md:px-8 py-10 min-h-screen">
                       <button onClick={()=>setCurrentRoute(type)} className="mb-10 text-aman-muted hover:text-black flex items-center gap-1 text-sm"><i className="ri-arrow-left-line"></i> {currentLang === 'en' ? data.uiTexts?.backBtnEn || 'Back' : data.uiTexts?.backBtn || '返回'}</button>
                       <div className="text-center mb-12 border-b border-aman-border/30 pb-10">
                           <p className="text-xs text-gray-400 mb-4 tracking-widest">{currentLang === 'en' ? item.categoryEn || item.category : item.category}</p>
@@ -5360,6 +5364,24 @@
                           </div>
 
                           <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-6 text-sm">
+                              {/* 网站标题管理模块 */}
+                              <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
+                                  <div className="flex justify-between items-center mb-3 border-b pb-2">
+                                      <h3 className="font-bold text-blue-600 flex items-center gap-2"><i className="ri-global-line"></i> 网站标题 (浏览器标签页)</h3>
+                                  </div>
+                                  <div className="text-[10px] text-gray-500 mb-2 leading-relaxed">此处修改的是浏览器标签页 / 分享网页上显示的网站标题，中英文各一份；保存为单文件后随导出永久生效。</div>
+                                  <div className="space-y-2">
+                                      <div className="flex flex-col gap-1">
+                                          <span className="text-xs text-gray-500 font-bold">站点标题</span>
+                                          <input className="w-full p-1.5 text-xs border rounded outline-none focus:border-blue-500" placeholder="PANDAS 景观设计 - 江山如画" value={data.siteTitle || ''} onChange={e=>handleEditObj('siteTitle', e.target.value)} />
+                                      </div>
+                                      <div className="flex flex-col gap-1">
+                                          <span className="text-xs text-gray-500 font-bold">站点标题 (英文)</span>
+                                          <input className="w-full p-1.5 text-xs border rounded outline-none focus:border-blue-500" placeholder="PANDAS Landscape Design" value={data.siteTitleEn || ''} onChange={e=>handleEditObj('siteTitleEn', e.target.value)} />
+                                      </div>
+                                  </div>
+                              </div>
+
                               {/* 菜单与页面统一管理模块 */}
                               <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm">
                                   <div className="flex justify-between items-center mb-3 border-b pb-2">
@@ -5773,8 +5795,8 @@
                           </div>
                       </div>
 
-                      {/* 全平台自适应弹性折行导航栏 */}
-                      <nav className="flex justify-center items-center flex-wrap px-4 py-3 gap-x-5 md:gap-x-8 gap-y-3 text-[12px] border-b border-aman-border/50 text-[#313131]/90">
+                      {/* 全平台自适应弹性折行导航栏 (全宽居中，自适应全屏不留左右白边) */}
+                      <nav className="flex justify-center items-center flex-wrap w-full py-3 gap-x-3 md:gap-x-8 gap-y-3 text-[12px] border-b border-aman-border/50 text-[#313131]/90">
                           {data.logos.menu.type === 'image' && data.logos.menu.imgUrl ? (
                               <img src={data.logos.menu.imgUrl} onClick={()=>navigateTo('home')} className="object-contain cursor-pointer pr-2" style={{height: data.logos.menu.imgSize || '16px'}} />
                           ) : (
@@ -5839,7 +5861,7 @@
                       {currentRoute === 'detail' && renderDetail()}
                       
                       {currentRoute === 'search' && (
-                          <div className="animate-fade-in py-20 px-4 max-w-5xl mx-auto min-h-screen">
+                          <div className="animate-fade-in py-20 px-4 md:px-8 w-full min-h-screen">
                               <h1 className="text-2xl md:text-3xl font-serif mb-10 text-center tracking-widest text-[#313131]">
                                   {currentLang === 'en' ? 'Search Results for' : '搜索结果:'} <span className="text-blue-600">"{searchQuery}"</span>
                               </h1>
@@ -5878,7 +5900,7 @@
                           if (!routeMenu) return null;
                           if (routeMenu.id === 'about') {
                               return (
-                                  <div className="animate-fade-in py-16 md:py-20 px-4 max-w-5xl mx-auto min-h-screen">
+                                  <div className="animate-fade-in py-16 md:py-20 px-4 md:px-8 w-full min-h-screen">
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
                                           <div className="flex flex-col items-start w-full">
                                               <p className="text-xs uppercase tracking-widest text-aman-muted mb-4">About Us</p>
@@ -5930,10 +5952,10 @@
                           }
                           if (routeMenu.id === 'contact') {
                               return (
-                                  <div className="animate-fade-in py-24 px-4 max-w-[1200px] mx-auto text-center min-h-screen">
+                                  <div className="animate-fade-in py-24 px-4 md:px-8 w-full text-center min-h-screen">
                                       <p className="text-xs uppercase tracking-widest text-aman-muted mb-4">Contact Us</p>
                                       <EditableText data={data} lang={currentLang} isEditing={isEditing} onEdit={handleEditObj} onFocus={setFocusedField} field="title" source="contactData" tag="h1" className="text-3xl md:text-4xl font-logo mb-16 md:mb-20 text-[#313131]" />
-                                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 max-w-5xl mx-auto relative">
+                                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 w-full relative">
                                           {isEditing && <button onClick={()=>setShowAddPlatformModal(true)} className="absolute -top-10 right-0 text-xs bg-blue-100 text-blue-600 px-3 py-1 rounded">新增社交平台</button>}
                                           {data.contactData.items.map(c => {
                                               const href = !isEditing && c.link && c.link !== '#' ? c.link : undefined;
@@ -5977,7 +5999,7 @@
                                               );
                                           })}
                                       </div>
-                                      <div className="mt-20 text-center text-xs tracking-widest text-[#313131] border-t border-aman-border/50 pt-8 max-w-2xl mx-auto px-4">
+                                      <div className="mt-20 text-center text-xs tracking-widest text-[#313131] border-t border-aman-border/50 pt-8 w-full px-4">
                                           <EditableText data={data} lang={currentLang} isEditing={isEditing} onEdit={handleEditObj} onFocus={setFocusedField} field="coop" source="contactData" tag="p" className="mb-2 break-all" />
                                           <EditableText data={data} lang={currentLang} isEditing={isEditing} onEdit={handleEditObj} onFocus={setFocusedField} field="addr" source="contactData" tag="p" className="break-all" />
                                       </div>
@@ -6050,7 +6072,7 @@
                   </main>
 
                   <footer className={`bg-transparent pt-16 pb-10 border-t border-aman-border/50 transition-all duration-300 ${isEditing ? 'sm:ml-[300px]' : ''}`}>
-                      <div className="max-w-[1400px] mx-auto px-4 md:px-8 flex flex-col items-center">
+                      <div className="w-full px-4 md:px-8 flex flex-col items-center">
                           {data.logos.footer.type === 'image' && data.logos.footer.imgUrl ? (
                               <img src={data.logos.footer.imgUrl} className="object-contain mb-8" style={{height: data.logos.footer.imgSize || '48px'}} />
                           ) : (
@@ -6195,6 +6217,7 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
     
     
     

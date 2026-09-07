@@ -53,6 +53,7 @@
 
     <style>
         body { background-color: transparent; color: #313131; -webkit-font-smoothing: antialiased; }
+        img { -webkit-user-drag: none; -webkit-touch-callout: none; user-select: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -91,6 +92,7 @@
 <body class="font-sans selection:bg-gray-200">
     <div id="root"></div>
     <script type="text/babel" data-presets="react-classic">
+
 
 
 
@@ -3025,8 +3027,7 @@
                         className={`w-full h-full object-${objectFit} transition-opacity duration-1000`} 
                         autoPlay playsInline loop={loop} 
                         muted={isMuted}
-                        draggable={false}
-                        onContextMenu={(e)=>{e.preventDefault();}}
+                        draggable
                         onEnded={onEnded}
                         onTimeUpdate={handleTimeUpdate}
                         onClick={togglePlay}
@@ -3201,21 +3202,16 @@
                 } catch (e) {}
                 onClose();
             };
-            const blockCtx = (e) => { try { e.preventDefault(); } catch (err) {} };
-
             return (
                 <div ref={stageRef} className="fixed inset-0 z-[100] bg-black flex items-center justify-center animate-fade-in" onClick={closeAll}>
                     <button onClick={(e)=>{e.stopPropagation(); closeAll();}} className="absolute top-6 right-6 md:top-8 md:right-8 text-white/70 hover:text-white z-10 bg-white/10 hover:bg-white/20 p-2 rounded-full backdrop-blur-md transition-all cursor-pointer"><i className="ri-close-line text-2xl"></i></button>
                     <div className="w-full h-full flex items-center justify-center px-4 relative">
                         {parsed.isIframe ? (
-                            <iframe src={iframeSrc} className="w-full h-full border-0 bg-black" allowFullScreen allow="autoplay; fullscreen; encrypted-media" onContextMenu={blockCtx}></iframe>
+                            <iframe src={iframeSrc} className="w-full h-full border-0 bg-black" allowFullScreen allow="autoplay; fullscreen; encrypted-media"></iframe>
                         ) : (
                             <video src={parsed.url} controls autoPlay playsInline
                                 className="w-full h-full object-contain bg-black"
-                                controlsList="nodownload noremoteplayback noplaybackrate"
-                                disablePictureInPicture
-                                draggable={false}
-                                onContextMenu={blockCtx}
+                                controls="autoplay"
                                 onClick={(e)=>e.stopPropagation()}
                             ></video>
                         )}
@@ -3254,6 +3250,37 @@
           const [searchResults, setSearchResults] = useState([]);
           const [playingVideo, setPlayingVideo] = useState(null);
           const [lightboxImg, setLightboxImg] = useState(null);
+          const [lightboxList, setLightboxList] = useState(null);
+          const [lightboxIndex, setLightboxIndex] = useState(0);
+          const openLightbox = (list, idx) => {
+              const all = (list || []).slice();
+              const urls = all.filter(Boolean);
+              if (!urls.length) return;
+              const target = all[idx] || urls[0];
+              const i = Math.max(0, urls.indexOf(target));
+              setLightboxList(urls);
+              setLightboxIndex(i);
+              setLightboxImg(urls[i]);
+          };
+          const closeLightbox = () => { setLightboxImg(null); setLightboxList(null); setLightboxIndex(0); };
+          const stepLightbox = (d) => {
+              if (!lightboxList || lightboxList.length < 2) return;
+              const cur = (lightboxIndex + d + lightboxList.length) % lightboxList.length;
+              setLightboxIndex(cur);
+              setLightboxImg(lightboxList[cur]);
+          };
+          useEffect(() => {
+              const h = (e) => {
+                  if (!lightboxImg) return;
+                  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                      e.preventDefault();
+                      stepLightbox((e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 1);
+                  }
+                  if (e.key === 'Escape') closeLightbox();
+              };
+              window.addEventListener('keydown', h);
+              return () => window.removeEventListener('keydown', h);
+          }, [lightboxImg, lightboxList, lightboxIndex]);
 
           const [activeProcessTab, setActiveProcessTab] = useState('process_courtyard');
 
@@ -4231,6 +4258,7 @@
 
     <style>
         body { background-color: transparent; color: #313131; -webkit-font-smoothing: antialiased; }
+        img { -webkit-user-drag: none; -webkit-touch-callout: none; user-select: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -4593,7 +4621,7 @@
                                                           )}
                                                       </div>
                                                   ) : (
-                                                      <video src={parsedVid.url} poster={item.img} className="w-full h-full object-cover" muted loop playsInline controlsList="nodownload noremoteplayback" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                                      <video src={parsedVid.url} poster={item.img} className="w-full h-full object-cover" muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
                                                   )}
                                                   
                                                   {(!parsedVid.isIframe || item.img) && (
@@ -4775,7 +4803,7 @@
                                    onDragOver={(e) => e.preventDefault()}
                                    onDragEnd={handleDragEnd}
                                    className={`${isMasonry ? 'masonry-item rounded-sm bg-[#fcfaf8] border border-aman-border/50 p-0' : `flex flex-col ${getGridSpanClass(item.cardSize)}`} group cursor-pointer relative shadow-sm hover:shadow-md transition-all duration-300`} 
-                                   onClick={() => { if(!isEditing){ isVideoMode && item.vid ? setPlayingVideo(item.vid) : (isMasonry ? setLightboxImg(item.img) : openDetail(item.sourceType || arrayName, item.sourceId || item.id)) } }}>
+                                   onClick={() => { if(!isEditing){ const gUrls = filteredList.map(i=>i.img).filter(Boolean); isVideoMode && item.vid ? setPlayingVideo(item.vid) : (isMasonry ? openLightbox(gUrls, gUrls.indexOf(item.img)) : openDetail(item.sourceType || arrayName, item.sourceId || item.id)) } }}>
                                   
                                   {isEditing && item.isAggregated ? (
                                       <div className="absolute top-2 left-2 flex gap-1 z-30">
@@ -4807,7 +4835,7 @@
                                                   )}
                                               </div>
                                           ) : (
-                                              <video src={parsedVid.url} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline controlsList="nodownload noremoteplayback" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
+                                              <video src={parsedVid.url} poster={item.img} className={`w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity ${!isMasonry?'aspect-video':''}`} muted loop playsInline onMouseEnter={e=>{const p = e.target.play(); if(p!==undefined)p.catch(()=>{})}} onMouseLeave={e=>e.target.pause()}></video>
                                           )
                                       ) : (
                                           <img src={item.img} className="w-full h-full object-cover" />
@@ -5013,7 +5041,7 @@
                                   {m.type === 'image' && (
                                       <div className="relative w-full h-full flex flex-col">
                                           {isEditing && <input className="absolute top-2 left-2 z-10 w-3/4 p-2 text-xs rounded shadow border" placeholder="图片 URL" value={m.url} onChange={e=>handleUpdateMedia(type, item.id, m.id, 'url', e.target.value)} onClick={e=>e.stopPropagation()} />}
-                                          {m.url ? <img src={m.url} className={`rounded-sm w-full ${m.cardSize !== 'large' && m.cardSize ? 'h-full object-cover flex-1' : ''} !mt-0 !mb-0`} /> : <div className="w-full h-40 bg-gray-100 flex items-center justify-center text-gray-400 border border-dashed border-gray-300 rounded">填入图片地址以展示</div>}
+                                          {m.url ? <img src={m.url} className={`rounded-sm w-full cursor-zoom-in ${m.cardSize !== 'large' && m.cardSize ? 'h-full object-cover flex-1' : ''} !mt-0 !mb-0`} onClick={() => { if(!isEditing){ const urls = (item.media||[]).filter(x=>x.type==='image' && x.url).map(x=>x.url); openLightbox(urls, urls.indexOf(m.url)); } }} /> : <div className="w-full h-40 bg-gray-100 flex items-center justify-center text-gray-400 border border-dashed border-gray-300 rounded">填入图片地址以展示</div>}
                                           {isEditing ? <input className="w-full p-1 text-xs text-center border-b outline-none text-gray-500 bg-transparent mt-2" placeholder="图片说明 (Caption)" value={m.caption} onChange={e=>handleUpdateMedia(type,item.id,m.id,'caption',e.target.value)} onClick={e=>e.stopPropagation()} />
                                           : (m.caption && <p className="img-caption !mb-0 !mt-2">{m.caption}</p>)}
                                       </div>
@@ -5027,7 +5055,7 @@
                                           {parsedVid.isIframe ? (
                                               <iframe src={parsedVid.url} className="w-full h-full border-0 absolute inset-0 z-0" allow="autoplay; fullscreen" allowFullScreen></iframe>
                                           ) : m.url ? (
-                                              <video src={parsedVid.url} controls playsInline controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} className="w-full h-full object-cover relative z-0"></video>
+                                              <video src={parsedVid.url} controls playsInline className="w-full h-full object-cover relative z-0"></video>
                                           ) : (
                                               <div className="w-full h-full flex items-center justify-center text-gray-400 relative z-0">填入视频地址以展示</div>
                                           )}
@@ -5166,7 +5194,9 @@
           }
 
           return (
-              <div className="min-h-screen flex flex-col relative z-0 font-sans">
+              <div className="min-h-screen flex flex-col relative z-0 font-sans" 
+                   onContextMenu={(e)=>{ if(e.target && e.target.tagName === 'IMG') e.preventDefault(); }}
+                   onDragStart={(e)=>{ if(e.target && e.target.tagName === 'IMG') e.preventDefault(); }}>
                   
                   {/* 图片批量导入模态框 */}
                   {showBatchImportModal && (() => {
@@ -5872,7 +5902,7 @@
                                       {searchResults.map((item, i) => (
                                           <div key={i} className="cursor-pointer group shadow-sm hover:shadow-lg transition-all border border-gray-100 bg-white rounded-sm overflow-hidden flex flex-col" onClick={()=>{
                                               if (['gallery', 'materials', 'plants'].includes(item.dataType)) {
-                                                  setLightboxImg(item.img);
+                                                  openLightbox([item.img], 0);
                                               } else if (item.dataType === 'videos' || item.vid) {
                                                   setPlayingVideo(item.vid || item.url);
                                               } else if (item.dataType.startsWith('process_')) {
@@ -6045,7 +6075,7 @@
                                                   return (
                                                       <div key={it.url + '_' + (it.time || '')} style={{breakInside: 'avoid', marginBottom: '14px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e6dcd0', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.06)'}}>
                                                           {isVid ? (
-                                                              <video src={it.url} controls preload="metadata" controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture draggable={false} onContextMenu={(e)=>{e.preventDefault();}} style={{width: '100%', display: 'block', aspectRatio: '1/1', objectFit: 'cover', background: '#000'}} />
+                                                              <video src={it.url} controls preload="metadata" style={{width: '100%', display: 'block', aspectRatio: '1/1', objectFit: 'cover', background: '#000'}} />
                                                           ) : (
                                                               <img src={it.url} loading="lazy" referrerPolicy="no-referrer" style={{width: '100%', display: 'block'}} />
                                                           )}
@@ -6139,7 +6169,7 @@
                       const base = pdfPreview.pdfUrl || '';
                       const pdfSrc = base + (base.includes('?') ? '&' : '?') + 'toolbar=0&navpanes=0&scrollbar=0';
                       return (
-                          <div className="fixed inset-0 z-[170] flex flex-col items-center justify-center px-2 md:px-8 py-2 bg-black/85 backdrop-blur-xl" onContextMenu={(e) => e.preventDefault()}>
+                          <div className="fixed inset-0 z-[170] flex flex-col items-center justify-center px-2 md:px-8 py-2 bg-black/85 backdrop-blur-xl">
                               <div className="absolute top-0 left-0 w-full px-4 md:px-8 py-4 md:py-6 flex justify-between items-center z-20">
                                   <h3 className="text-white font-serif text-base md:text-lg tracking-wider drop-shadow-md truncate max-w-[50vw]">{pdfPreview.title}</h3>
                                   <button onClick={closePdfPreview} className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:text-white hover:bg-white/20 transition-all"><i className="ri-close-line text-xl"></i></button>
@@ -6188,8 +6218,10 @@
 
                   {lightboxImg && (() => {
                       const bg = data.backgrounds['detail'] || { type: 'color', color: '#ffffff' };
+                      const total = lightboxList && lightboxList.length ? lightboxList.length : 1;
+                      const cur = (lightboxIndex % total + total) % total;
                       return (
-                          <div className="fixed inset-0 z-[100] bg-white/90 flex items-center justify-center backdrop-blur-lg animate-fade-in" onClick={() => setLightboxImg(null)}>
+                          <div className="fixed inset-0 z-[100] bg-white/90 flex items-center justify-center backdrop-blur-lg animate-fade-in" onClick={closeLightbox}>
                               <div className="absolute inset-0 pointer-events-none" style={{ 
                                   backgroundColor: bg.type === 'color' ? bg.color : 'transparent',
                                   backgroundImage: bg.type === 'gradient' ? bg.color : (bg.type === 'image' ? `url(${bg.imageUrl})` : 'none'),
@@ -6198,9 +6230,16 @@
                               }}>
                                   {bg.type === 'particles' && <ParticlesBackground color={bg.color} />}
                               </div>
-                              <button onClick={(e)=>{e.stopPropagation(); setLightboxImg(null);}} className="absolute top-6 right-6 md:top-8 md:right-8 text-[#313131] hover:text-black z-10 bg-white/50 hover:bg-white p-2 rounded-full backdrop-blur-md transition-all shadow"><i className="ri-close-line text-2xl"></i></button>
+                              <button onClick={(e)=>{e.stopPropagation(); closeLightbox();}} className="absolute top-6 right-6 md:top-8 md:right-8 text-[#313131] hover:text-black z-10 bg-white/50 hover:bg-white p-2 rounded-full backdrop-blur-md transition-all shadow"><i className="ri-close-line text-2xl"></i></button>
+                              {total > 1 && (
+                                  <>
+                                      <button onClick={(e)=>{e.stopPropagation(); stepLightbox(-1);}} className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-[#313131] hover:text-black z-10 bg-white/60 hover:bg-white p-3 rounded-full backdrop-blur-md transition-all shadow-xl"><i className="ri-arrow-up-s-line text-3xl"></i></button>
+                                      <button onClick={(e)=>{e.stopPropagation(); stepLightbox(1);}} className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-[#313131] hover:text-black z-10 bg-white/60 hover:bg-white p-3 rounded-full backdrop-blur-md transition-all shadow-xl"><i className="ri-arrow-down-s-line text-3xl"></i></button>
+                                      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 bg-black/60 text-white text-xs px-4 py-2 rounded-full backdrop-blur-md tracking-widest">{cur + 1} / {total}</div>
+                                  </>
+                              )}
                               <div className="relative w-full max-w-7xl max-h-[90vh] flex justify-center items-center pointer-events-none z-10">
-                                  <img src={lightboxImg} className="max-w-full max-h-[85vh] object-contain shadow-2xl rounded pointer-events-auto" onClick={e=>e.stopPropagation()} />
+                                  <img src={lightboxImg} draggable={false} onContextMenu={(e)=>e.preventDefault()} className="max-w-full max-h-[85vh] object-contain shadow-2xl rounded pointer-events-auto select-none" onClick={e=>e.stopPropagation()} />
                               </div>
                           </div>
                       );
@@ -6217,6 +6256,7 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
     
     
     

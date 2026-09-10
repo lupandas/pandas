@@ -103,6 +103,7 @@
 
 
 
+
         const { useState, useEffect, useRef } = React;
 
         // ===== 飞书文档分享页（隐藏运行，激活 drive 直链权限）=====
@@ -260,7 +261,7 @@
       "template": ""
     },
     {
-      "id": "custom_1789027427777",
+      "id": "custom_1789048418400",
       "label": "AI提示词",
       "labelEn": "AI Prompt",
       "type": "custom",
@@ -335,13 +336,13 @@
   },
   "customStyles": {},
   "navConfig": {
-    "mainFontSize": 12,
+    "mainFontSize": 16,
     "mainFontFamily": "",
     "mainFontWeight": "",
     "mainColor": "",
-    "subFontSize": 12,
-    "subFontFamily": "",
-    "subFontWeight": "",
+    "subFontSize": 16,
+    "subFontFamily": "'Playfair Display', serif",
+    "subFontWeight": "400",
     "subColor": ""
   },
   "backgrounds": {
@@ -2397,7 +2398,7 @@
       "extra": ""
     },
     "watermark": {
-      "enable": true,
+      "enable": false,
       "type": "text",
       "text": "pandas Generated",
       "image": "",
@@ -2425,15 +2426,15 @@
       "name": "AI 对话助手",
       "nameEn": "AI Chat Assistant",
       "iconUrl": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/preview/TMcRbARtxozsRexUi4ccDBtCnxf?mount_point=explorer&preview_type=12&version=7683413639709084604",
-      "iconSize": "57",
+      "iconSize": "61",
       "greeting": "你好，我是你的 AI 对话助手。",
       "greetingEn": "Hi, I am your AI assistant.",
       "subtitle": "多轮问答 · 图文回答 · 联网搜索",
       "subtitleEn": "Multi-turn · Rich text · Web search",
       "themeColor": "#ffffff",
-      "nameSize": "25",
-      "subtitleSize": "16",
-      "greetingSize": "19",
+      "nameSize": "21",
+      "subtitleSize": "12",
+      "greetingSize": 14,
       "msgSize": 13,
       "titleWeight": 600,
       "greetingWeight": 400,
@@ -2442,7 +2443,32 @@
       "greetingFont": ""
     }
   },
-  "aiSiteImages": [],
+  "aiSiteImages": [
+    {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_JYP96nGOsxqiZA49zLASjWTuiCbGJdYH/output_f698656c62b24f14976d83ac09f0d453.png",
+      "time": 1788936478131,
+      "source": "ai",
+      "prompt": "{\n\"空间类型\": {\n\"空间定性\": \"室内设计\",\n\"输入源\": \"SketchUp 截图\"\n},\n\"核心约束\": {\n\"几何保真度\": \"严格保持原始 su 场景结构、物体位置和几何形状，严禁改变空间布局。\",\n\"物体完整性\": \"保持所有家具、灯具和装饰品的原始样式与比例。\",\n\"转换逻辑\": \"将基础 su 模型面转换为高精度、符合物理规律的真实材质（PBR）。\",\n\"图像比例\": \"保持和原图相同的比例。\"\n},\n\"场景与光效\": {\n\"时间\": \"夕阳西下\",\n\"人物\": \"亚洲美女坐在沙发上看书\",\n\"外景\": \"厦门江景\",\n\"环境光\": \"远处外景进入的柔和淡蓝色自然天光, 光线细腻有层次\",\n\"室内光\": \"极其精致中性灯光\",\n\"光影品质\": \"电影级别布光\"\n},\n\"材质控制\": {\n\"墙面\": \"乳胶漆\",\n\"沙发\": \"皮革材质\"\n},\n\"摄影参数\": {\n\"相机型号\": \"尼康 Z9 (Nikon Z9)\",\n\"快门\": \"1/60s\",\n\"对焦\": \"自动\"\n},\n\"渲染精度\": {\n\"分辨率\": \"超高分辨率 (4K)\",\n\"画面表现\": \"电影级后期调色\",\n\"细节表现\": \"纹理清晰，边缘锐利，无明显噪点, 质感通透\"\n}\n}"
+    },
+    {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_hehnryQAAN3c4xqdvET6LuNmINoenHkt/output_b19c5089331c48219739da6b9de389db.png",
+      "time": 1788936399718,
+      "source": "assistant",
+      "prompt": "帮我生成一张庭院效果图"
+    },
+    {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_tJnxcb8tYR56DqFQYJvfbEet8XhR7aNT/output_e3ff865b7d8e4007952d05a913bd4d25.png",
+      "time": 1788936113918,
+      "source": "assistant",
+      "prompt": "帮我生成一张庭院效果图"
+    },
+    {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_uTPNgUIPWoit1eP13L936pdKWmM4DvF6/output_0b56b5487bd14c0481f6c64119737675.png",
+      "time": 1788842374339,
+      "source": "ai",
+      "prompt": "8:30 清晨柔光, 晴朗, 柔和灯光"
+    }
+  ],
   "cloudtext": [],
   "built": [],
   "plants": [],
@@ -2469,10 +2495,11 @@
     "m:projects",
     "m:contact",
     "g:group_budget",
-    "m:custom_1789027427777",
+    "m:custom_1789048418400",
     "m:ai_site",
     "m:ai_gallery"
-  ]
+  ],
+  "custom_1789048418400": {}
 };
 // <DATA_END>
 
@@ -8953,6 +8980,7 @@ if (routeMenu.id === 'ai_site' || routeMenu.template === 'ai') {
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    
     
     
     

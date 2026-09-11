@@ -103,7 +103,6 @@
 
 
 
-
         const { useState, useEffect, useRef } = React;
 
         // ===== 飞书文档分享页（隐藏运行，激活 drive 直链权限）=====
@@ -124,8 +123,7 @@
         const IS_ENCRYPTED = false;
         const RAW_DATA = {
   "feishuWakeUrls": [
-    "https://my.feishu.cn/file/boxcnix2iuao1gn2yPqEGkGMVhc",
-    "https://my.feishu.cn/file/TMcRbARtxozsRexUi4ccDBtCnxf"
+    "https://my.feishu.cn/file/boxcnix2iuao1gn2yPqEGkGMVhc"
   ],
   "siteTitle": "PANDAS ",
   "siteTitleEn": "PANDAS ",
@@ -261,7 +259,7 @@
       "template": ""
     },
     {
-      "id": "custom_1789048418400",
+      "id": "custom_1789027427777",
       "label": "AI提示词",
       "labelEn": "AI Prompt",
       "type": "custom",
@@ -336,13 +334,13 @@
   },
   "customStyles": {},
   "navConfig": {
-    "mainFontSize": 16,
+    "mainFontSize": 12,
     "mainFontFamily": "",
     "mainFontWeight": "",
     "mainColor": "",
-    "subFontSize": 16,
-    "subFontFamily": "'Playfair Display', serif",
-    "subFontWeight": "400",
+    "subFontSize": 12,
+    "subFontFamily": "",
+    "subFontWeight": "",
     "subColor": ""
   },
   "backgrounds": {
@@ -2398,7 +2396,7 @@
       "extra": ""
     },
     "watermark": {
-      "enable": false,
+      "enable": true,
       "type": "text",
       "text": "pandas Generated",
       "image": "",
@@ -2426,15 +2424,15 @@
       "name": "AI 对话助手",
       "nameEn": "AI Chat Assistant",
       "iconUrl": "https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/preview/TMcRbARtxozsRexUi4ccDBtCnxf?mount_point=explorer&preview_type=12&version=7683413639709084604",
-      "iconSize": "61",
+      "iconSize": "57",
       "greeting": "你好，我是你的 AI 对话助手。",
       "greetingEn": "Hi, I am your AI assistant.",
       "subtitle": "多轮问答 · 图文回答 · 联网搜索",
       "subtitleEn": "Multi-turn · Rich text · Web search",
       "themeColor": "#ffffff",
-      "nameSize": "21",
-      "subtitleSize": "12",
-      "greetingSize": 14,
+      "nameSize": "25",
+      "subtitleSize": "16",
+      "greetingSize": "19",
       "msgSize": 13,
       "titleWeight": 600,
       "greetingWeight": 400,
@@ -2443,32 +2441,7 @@
       "greetingFont": ""
     }
   },
-  "aiSiteImages": [
-    {
-      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_JYP96nGOsxqiZA49zLASjWTuiCbGJdYH/output_f698656c62b24f14976d83ac09f0d453.png",
-      "time": 1788936478131,
-      "source": "ai",
-      "prompt": "{\n\"空间类型\": {\n\"空间定性\": \"室内设计\",\n\"输入源\": \"SketchUp 截图\"\n},\n\"核心约束\": {\n\"几何保真度\": \"严格保持原始 su 场景结构、物体位置和几何形状，严禁改变空间布局。\",\n\"物体完整性\": \"保持所有家具、灯具和装饰品的原始样式与比例。\",\n\"转换逻辑\": \"将基础 su 模型面转换为高精度、符合物理规律的真实材质（PBR）。\",\n\"图像比例\": \"保持和原图相同的比例。\"\n},\n\"场景与光效\": {\n\"时间\": \"夕阳西下\",\n\"人物\": \"亚洲美女坐在沙发上看书\",\n\"外景\": \"厦门江景\",\n\"环境光\": \"远处外景进入的柔和淡蓝色自然天光, 光线细腻有层次\",\n\"室内光\": \"极其精致中性灯光\",\n\"光影品质\": \"电影级别布光\"\n},\n\"材质控制\": {\n\"墙面\": \"乳胶漆\",\n\"沙发\": \"皮革材质\"\n},\n\"摄影参数\": {\n\"相机型号\": \"尼康 Z9 (Nikon Z9)\",\n\"快门\": \"1/60s\",\n\"对焦\": \"自动\"\n},\n\"渲染精度\": {\n\"分辨率\": \"超高分辨率 (4K)\",\n\"画面表现\": \"电影级后期调色\",\n\"细节表现\": \"纹理清晰，边缘锐利，无明显噪点, 质感通透\"\n}\n}"
-    },
-    {
-      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_hehnryQAAN3c4xqdvET6LuNmINoenHkt/output_b19c5089331c48219739da6b9de389db.png",
-      "time": 1788936399718,
-      "source": "assistant",
-      "prompt": "帮我生成一张庭院效果图"
-    },
-    {
-      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_tJnxcb8tYR56DqFQYJvfbEet8XhR7aNT/output_e3ff865b7d8e4007952d05a913bd4d25.png",
-      "time": 1788936113918,
-      "source": "assistant",
-      "prompt": "帮我生成一张庭院效果图"
-    },
-    {
-      "url": "https://platform-outputs.agnes-ai.space/images/t2i/task_uTPNgUIPWoit1eP13L936pdKWmM4DvF6/output_0b56b5487bd14c0481f6c64119737675.png",
-      "time": 1788842374339,
-      "source": "ai",
-      "prompt": "8:30 清晨柔光, 晴朗, 柔和灯光"
-    }
-  ],
+  "aiSiteImages": [],
   "cloudtext": [],
   "built": [],
   "plants": [],
@@ -2495,11 +2468,10 @@
     "m:projects",
     "m:contact",
     "g:group_budget",
-    "m:custom_1789048418400",
+    "m:custom_1789027427777",
     "m:ai_site",
     "m:ai_gallery"
-  ],
-  "custom_1789048418400": {}
+  ]
 };
 // <DATA_END>
 
@@ -2606,6 +2578,97 @@ function PromptGallery() {
         const clearDraftData = () => {
             try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch (e) { }
             if (typeof window !== 'undefined') window.__draftCleared = true;
+        };
+        // ==================== AI 板块历史 localStorage 持久化（独立键，静默，容量上限） ====================
+        const PD_KEY_CHAT = 'pd_chat_history';   // AI 对话助手聊天消息
+        const PD_KEY_IMAGES = 'pd_gen_images';   // AI 生图图片记录
+        const PD_KEY_VIDEOS = 'pd_gen_videos';   // AI 视频记录
+        const PD_MAX_ITEMS = 300;                // 单键最大保留条数，超出丢最旧
+        const PD_MAX_CHARS = 3600000;            // 单键序列化总字符上限（约 3.6MB，预留余量给 localStorage ~5MB），超出丢最旧
+        const pdReadList = (key) => {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return null;
+                const arr = JSON.parse(raw);
+                return Array.isArray(arr) ? arr : null;
+            } catch (e) { return null; }
+        };
+        const pdClearKey = (key) => { try { localStorage.removeItem(key); } catch (e) { } };
+        // 单条记录序列化长度上限（超出则丢弃该条而非清空整份历史）
+        const PD_ITEM_MAX_CHARS = 500000; // 单条约 0.5MB，保护聊天中含大图 base64 场景
+        const pdWriteList = (key, list) => {
+            try {
+                const items = (Array.isArray(list) ? list : []).filter(Boolean).slice(0, PD_MAX_ITEMS);
+                let total = 0; const keep = [];
+                for (let i = items.length - 1; i >= 0; i--) {
+                    let len = 0; try { len = JSON.stringify(items[i]).length; } catch (e) { len = 0; }
+                    if (len > PD_ITEM_MAX_CHARS) continue; // 单条超大直接丢弃，防止清空整份历史
+                    if (total + len > PD_MAX_CHARS) break;
+                    keep.unshift(items[i]); total += len;
+                }
+                localStorage.setItem(key, JSON.stringify(keep));
+            } catch (e) { /* 存储空间不足等异常静默忽略 */ }
+        };
+        const pdPrependItem = (key, item) => {
+            const cur = pdReadList(key) || [];
+            const next = [item].concat(cur.filter(x => x && x.url !== item.url));
+            pdWriteList(key, next);
+        };
+        const loadChatHistory = () => {
+            const arr = pdReadList(PD_KEY_CHAT);
+            return Array.isArray(arr) ? arr.filter(m => m && m.role) : [];
+        };
+        const saveChatHistory = (msgs) => {
+            try {
+                const clean = (msgs || []).filter(m => m && !m.pending).map(m => ({
+                    role: m.role,
+                    content: (typeof m.content === 'string' ? m.content : String(m.content || '')).slice(0, 20000),
+                    imgs: Array.isArray(m.imgs) ? m.imgs.slice(0, 2) : [],
+                    sources: Array.isArray(m.sources) ? m.sources : [],
+                    note: m.note || '',
+                    ts: m.ts || Date.now()
+                }));
+                pdWriteList(PD_KEY_CHAT, clean);
+            } catch (e) { }
+        };
+        // 生图图片下载：兼容完整 URL / blob / data URL，跨域失败降级为直接打开
+        const downloadAiImage = (url, time, idx) => {
+            try {
+                const u = url || '';
+                let ext = '';
+                const extMatch = /\.(png|jpe?g|webp|gif|avif)(\?|#|$)/i.exec(u);
+                if (extMatch) ext = extMatch[1].toLowerCase();
+                const dataM = /^data:image\/([a-z0-9+]+)[;,]/i.exec(u);
+                if (dataM) ext = dataM[1].toLowerCase() === 'jpeg' ? 'jpg' : (dataM[1] || '');
+                if (!ext) ext = 'png';
+                const t = time ? new Date(time) : new Date();
+                const p = (n) => String(n).padStart(2, '0');
+                const name = `AI_${t.getFullYear()}${p(t.getMonth() + 1)}${p(t.getDate())}_${p(t.getHours())}${p(t.getMinutes())}${p(t.getSeconds())}_${idx + 1}.${ext}`;
+                const fire = (u2) => {
+                    const a = document.createElement('a');
+                    a.href = u2;
+                    a.download = name;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => { a.remove(); if (u2.indexOf('blob:') === 0) URL.revokeObjectURL(u2); }, 1500);
+                };
+                if (/^data:/i.test(u)) {
+                    fetch(u).then(r => r.blob()).then(b => fire(URL.createObjectURL(b))).catch(() => fire(u));
+                    return;
+                }
+                fetch(u, { mode: 'cors', credentials: 'same-origin' })
+                    .then(r => { if (!r.ok) throw new Error('bad'); return r.blob(); })
+                    .then(b => fire(URL.createObjectURL(b)))
+                    .catch(() => {
+                        const a = document.createElement('a');
+                        a.href = u;
+                        a.target = '_blank';
+                        a.rel = 'noopener';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    });
+            } catch (e) { try { window.open(url, '_blank'); } catch (e2) { } }
         };
         // 动态引入 CDN 库（Excel: SheetJS；PDF: html2canvas + jsPDF）
         const __libCache = (window.__libLoaded = window.__libLoaded || {});
@@ -3653,7 +3716,7 @@ function PromptGallery() {
           const [aiSuggestions, setAiSuggestions] = useState([]);
 
           // ===== AI 对话助手（类豆包）状态 =====
-          const [chatMessages, setChatMessages] = useState([]);
+          const [chatMessages, setChatMessages] = useState(() => loadChatHistory());
           const [chatInput, setChatInput] = useState('');
           const [chatLoading, setChatLoading] = useState(false);
           const [chatThinking, setChatThinking] = useState('');
@@ -3661,6 +3724,7 @@ function PromptGallery() {
           useEffect(() => {
               if (chatEndRef.current) chatEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }, [chatMessages, chatLoading, chatThinking]);
+          useEffect(() => { saveChatHistory(chatMessages); }, [chatMessages]);
           const [playingVideo, setPlayingVideo] = useState(null);
           const [lightboxImg, setLightboxImg] = useState(null);
           const [lightboxList, setLightboxList] = useState(null);
@@ -3916,14 +3980,16 @@ function PromptGallery() {
                   if (!d || d.type !== 'pandas_ai_gen_image' || typeof d.url !== 'string' || !d.url) return;
                   if (!/^(https?:|blob:|data:)/.test(d.url)) return;
                   const url = d.url;
+                  const item = { url, time: d.time || Date.now(), source: d.source || 'unknown', prompt: (typeof d.prompt === 'string' && d.prompt) ? d.prompt : '' };
                   setData(p => {
                       const cur = Array.isArray(p.aiSiteImages) ? p.aiSiteImages : [];
                       if (cur.some(it => it.url === url)) return p;
-                      const item = { url, time: d.time || Date.now(), source: d.source || 'unknown', prompt: (typeof d.prompt === 'string' && d.prompt) ? d.prompt : '' };
                       const AI_IMAGES_MAX = 200; // AI 生图归档上限：超出移除最早记录，避免无限膨胀
                       const next = [item, ...cur].sort((a, b) => (b.time || 0) - (a.time || 0)).slice(0, AI_IMAGES_MAX);
                       return { ...p, aiSiteImages: next };
                   });
+                  // 镜像写入独立持久化键（按是否为视频分流到图片/视频记录）
+                  pdPrependItem(/\.(mp4|webm|mov)(\?|#|$)/i.test(url) || d.source === 'video' ? PD_KEY_VIDEOS : PD_KEY_IMAGES, item);
               };
               window.addEventListener('message', handler);
               return () => window.removeEventListener('message', handler);
@@ -5807,7 +5873,7 @@ function PromptGallery() {
               setChatLoading(false);
               setChatThinking('');
           };
-          const clearChat = () => { setChatMessages([]); };
+          const clearChat = () => { setChatMessages([]); pdClearKey(PD_KEY_CHAT); };
 
           // ===== 对话页 UI（类豆包：消息列表 + 输入框 + 清空 + 建议问题） =====
           const renderChat = () => {
@@ -8791,7 +8857,7 @@ if (routeMenu.id === 'ai_site' || routeMenu.template === 'ai') {
                                           </div>
                                       ) : (
                                           <div style={{columns: '260px 4', columnGap: '14px', width: '100%'}}>
-                                              {imgs.map((it) => {
+                                              {imgs.map((it, idx) => {
                                                   const isVid = /\.(mp4|webm|mov)(\?|#|$)/i.test(it.url || '');
                                                   return (
                                                       <div key={it.url + '_' + (it.time || '')} style={{breakInside: 'avoid', marginBottom: '14px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e6dcd0', background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.06)'}}>
@@ -8800,9 +8866,22 @@ if (routeMenu.id === 'ai_site' || routeMenu.template === 'ai') {
                                                           ) : (
                                                               <img src={it.url} loading="lazy" referrerPolicy="no-referrer" style={{width: '100%', display: 'block'}} />
                                                           )}
-                                                          <div style={{padding: '8px 10px', fontSize: 12, color: '#8a7f70', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                          <div style={{padding: '8px 10px', fontSize: 12, color: '#8a7f70', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8}}>
                                                               <span>{(SOURCE_LABELS[it.source] || (it.source && it.source !== 'unknown' ? it.source : 'AI生成'))}</span>
-                                                              <span>{it.time ? new Date(it.time).toLocaleString() : ''}</span>
+                                                              <span style={{display: 'inline-flex', alignItems: 'center', gap: 8}}>
+                                                                  {!isVid ? (
+                                                                      <button
+                                                                          onClick={(e) => { e.stopPropagation(); downloadAiImage(it.url, it.time, idx); }}
+                                                                          title={currentLang === 'en' ? 'Download image' : '下载图片'}
+                                                                          className="text-sm border rounded px-2 py-0.5 flex items-center gap-1"
+                                                                          style={{borderColor: '#d8cfc0', color: '#8a7f70', background: '#fff', cursor: 'pointer', whiteSpace: 'nowrap'}}
+                                                                      >
+                                                                          <i className="ri-download-line" style={{fontSize: 13}}></i>
+                                                                          {currentLang === 'en' ? 'Save' : '下载'}
+                                                                      </button>
+                                                                  ) : null}
+                                                                  <span>{it.time ? new Date(it.time).toLocaleString() : ''}</span>
+                                                              </span>
                                                           </div>
                                                           {it.prompt ? <div title={it.prompt} style={{padding: '6px 10px 8px', fontSize: 11, color: '#3f6ec0', background: '#f3f7ff', borderTop: '1px solid #e6edfb', lineHeight: 1.5, wordBreak: 'break-all', maxHeight: 62, overflow: 'hidden'}}><i className="ri-quill-pen-line" style={{marginRight: 4, verticalAlign: -1}}></i><span style={{opacity: .75}}>提示词：</span>{it.prompt}</div> : null}
                                                       </div>
@@ -8980,7 +9059,6 @@ if (routeMenu.id === 'ai_site' || routeMenu.template === 'ai') {
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
-    
     
     
     
